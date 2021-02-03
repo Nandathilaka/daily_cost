@@ -40,4 +40,10 @@
         android:name="com.nandeproduction.dailycost.ui.cost.CostFragment"
         android:label="@string/menu_cost"
         tools:layout="@layout/fragment_cost" />
+
+    <fragment
+        android:id="@+id/nav_loan"
+        android:name="com.nandeproduction.dailycost.ui.loan.LoanFragment"
+        android:label="@string/menu_loan"
+        tools:layout="@layout/fragment_loan" />
 </navigation>

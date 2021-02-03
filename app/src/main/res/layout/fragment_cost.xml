@@ -137,13 +137,13 @@
                                 android:padding="10dp">
 
                                 <TextView
-                                    android:id="@+id/name"
+                                    android:textColor="#000"
+                                    android:id="@+id/position"
                                     android:fontFamily="serif"
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
                                     android:layout_weight="1"
-                                    android:textColor="#000"
-                                    android:text="Title"/>
+                                    android:text="Date"/>
                                 <TextView
                                     android:id="@+id/age"
                                     android:textColor="#000"
@@ -152,14 +152,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_weight="1"
                                     android:text="Amount"/>
-                                <TextView
-                                    android:textColor="#000"
-                                    android:id="@+id/position"
-                                    android:fontFamily="serif"
-                                    android:layout_height="wrap_content"
-                                    android:layout_width="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="Date"/>
                                 <TextView
                                     android:textColor="#000"
                                     android:id="@+id/address"

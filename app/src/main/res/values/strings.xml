@@ -11,6 +11,7 @@
     <string name="menu_overview">Overview</string>
     <string name="menu_income">Income</string>
     <string name="menu_cost">Cost</string>
+    <string name="menu_loan">Loan</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="overview">Overview</string>
@@ -18,4 +19,6 @@
     <string name="cost">Cost</string>
     <string name="asset">Asset</string>
     <string name="date">Date</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

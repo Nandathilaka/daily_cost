@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.income.IncomeFragment">
+    tools:context=".ui.loan.LoanFragment">
 
     <TextView
-        android:id="@+id/text_income"
+        android:id="@+id/text_loan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
-                android:text="Total Income : "
+                android:text="Total Loans : "
                 android:textAlignment="center"
                 android:textStyle="bold"
                 android:textSize="30sp" />
@@ -72,7 +72,18 @@
                             android:fontFamily="serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add Income"/>
+                            android:text="Add Loan"/>
+
+                        <EditText
+                            android:layout_margin="8dp"
+                            android:id="@+id/edtAccount"
+                            android:padding="8dp"
+                            android:fontFamily="serif"
+                            android:background="@drawable/text_background"
+                            android:textColor="#fff"
+                            android:hint="Account Number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
                         <EditText
                             android:layout_margin="8dp"
@@ -81,7 +92,7 @@
                             android:fontFamily="serif"
                             android:background="@drawable/text_background"
                             android:textColor="#fff"
-                            android:hint="Title"
+                            android:hint="Account Name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
@@ -93,17 +104,47 @@
                             android:background="@drawable/text_background"
                             android:textColor="#fff"
                             android:layout_width="match_parent"
-                            android:hint="Amount"
+                            android:hint="Loan Amount"
+                            android:layout_height="wrap_content" />
+                        <EditText
+                            android:padding="8dp"
+                            android:layout_margin="8dp"
+                            android:id="@+id/edtMonthlyPayment"
+                            android:fontFamily="serif"
+                            android:background="@drawable/text_background"
+                            android:textColor="#fff"
+                            android:layout_width="match_parent"
+                            android:hint="Monthly Payment"
+                            android:layout_height="wrap_content" />
+                        <EditText
+                            android:padding="8dp"
+                            android:layout_margin="8dp"
+                            android:id="@+id/edtInterestRate"
+                            android:fontFamily="serif"
+                            android:background="@drawable/text_background"
+                            android:textColor="#fff"
+                            android:layout_width="match_parent"
+                            android:hint="Interest Rate % P.A."
                             android:layout_height="wrap_content" />
                         <EditText
                             android:layout_margin="8dp"
                             android:id="@+id/editDate"
                             android:padding="8dp"
                             android:textColor="#fff"
-                            android:hint="Enter Date"
+                            android:hint="Open Date"
                             android:fontFamily="serif"
                             android:background="@drawable/text_background"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <EditText
+                            android:padding="8dp"
+                            android:layout_margin="8dp"
+                            android:id="@+id/edtMonth"
+                            android:fontFamily="serif"
+                            android:background="@drawable/text_background"
+                            android:textColor="#fff"
+                            android:layout_width="match_parent"
+                            android:hint="Year/Month"
                             android:layout_height="wrap_content" />
                         <Button
                             android:id="@+id/BtnSave"
@@ -121,7 +162,7 @@
                             android:textColor="#000"
                             android:textSize="20sp"
                             android:fontFamily="serif"
-                            android:text="Daily Income"
+                            android:text="Loans(1)"
                             android:gravity="center"/>
 
                         <TableLayout
@@ -143,7 +184,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
                                     android:layout_weight="1"
-                                    android:text="Date"/>
+                                    android:text="Acc Number"/>
                                 <TextView
                                     android:id="@+id/age"
                                     android:textColor="#000"
@@ -151,7 +192,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
                                     android:layout_weight="1"
-                                    android:text="Amount"/>
+                                    android:text="Current Balance"/>
                                 <TextView
                                     android:textColor="#000"
                                     android:id="@+id/address"
