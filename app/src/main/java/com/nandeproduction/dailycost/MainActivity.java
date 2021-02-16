@@ -61,56 +61,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-
-        /*
-        edtName = (EditText)findViewById(R.id.edtName);
-        edtAddress = (EditText)findViewById(R.id.edtAddress);
-        edtAge = (EditText)findViewById(R.id.edtAge);
-        edtPosition = (EditText)findViewById(R.id.edtPosition);
-
-        // get our button by its ID
-        btnSave = (Button) findViewById(R.id.BtnSave);
-
-        // set its click listener
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                //addEmployee();
-
-            }
-        });
-        */
     }
-/*
-    private void addEmployee()  {
-    }
-
-    private void addEmployee(View v) {
-
-        String employeeName = edtName.getText().toString();
-        String employeeAge = edtAge.getText().toString();
-        String employeePosition = edtPosition.getText().toString();
-        String employeeAddress = edtAddress.getText().toString();
-
-        // return if the input fields are blank
-        if (TextUtils.isEmpty(employeeName) && TextUtils.isEmpty(employeeAge) &&
-                TextUtils.isEmpty(employeePosition) &&
-                TextUtils.isEmpty(employeeAddress)) {
-            return;
-        }
-
-        RequestParams params = new RequestParams();
-        // set our JSON object
-        params.put("name", employeeName);
-        params.put("age", employeeAge);
-        params.put("position", employeePosition);
-        params.put("address", employeeAddress);
-
-        // create our HTTP client
-        AsyncHttpClient client = new AsyncHttpClient();
-    }
-*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
