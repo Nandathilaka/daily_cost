@@ -43,7 +43,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         });
 
         //Date Start
-        eText=(EditText) root.findViewById(R.id.editDate);
+        eText=(EditText) root.findViewById(R.id.txtIncomeDate);
         eText.setInputType(InputType.TYPE_NULL);
         eText.setOnClickListener(new View.OnClickListener() {
             @Override

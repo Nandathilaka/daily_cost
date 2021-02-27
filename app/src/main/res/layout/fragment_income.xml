@@ -32,6 +32,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/lblTotalIncomeThisMonth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -76,7 +77,7 @@
 
                         <EditText
                             android:layout_margin="8dp"
-                            android:id="@+id/edtName"
+                            android:id="@+id/txtIncomeTitle"
                             android:padding="8dp"
                             android:fontFamily="serif"
                             android:background="@drawable/text_background"
@@ -88,7 +89,7 @@
                         <EditText
                             android:padding="8dp"
                             android:layout_margin="8dp"
-                            android:id="@+id/edtAge"
+                            android:id="@+id/txtIncomeAmount"
                             android:fontFamily="serif"
                             android:background="@drawable/text_background"
                             android:textColor="#fff"
@@ -97,7 +98,7 @@
                             android:layout_height="wrap_content" />
                         <EditText
                             android:layout_margin="8dp"
-                            android:id="@+id/editDate"
+                            android:id="@+id/txtIncomeDate"
                             android:padding="8dp"
                             android:textColor="#fff"
                             android:hint="Enter Date"
@@ -106,7 +107,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                         <Button
-                            android:id="@+id/BtnSave"
+                            android:id="@+id/btnSave"
                             android:layout_gravity="center"
                             android:fontFamily="serif"
                             android:layout_width="wrap_content"

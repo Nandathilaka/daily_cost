@@ -61,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String LOANS_COLUMN_RATE = "rate";
     public static final String LOANS_COLUMN_OPEN_DATE = "open_date";
     public static final String LOANS_COLUMN_MONTHS = "months";
+    public static final String LOANS_COLUMN_NUMBER_OF_PAID_MONTHS = "number_of_paid_months";
 
 
     private HashMap hp;
@@ -98,7 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // Create Loan Table
         db.execSQL(
                 "create table loans " +
-                        "(id interger primary key AUTOINCREMENT, user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, foreign key (user_id) references users (user_id))"
+                        "(id interger primary key AUTOINCREMENT, user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, foreign key (user_id) references users (user_id))"
         );
     }
 
@@ -155,7 +156,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertLoan (String user_id, String account_name, String account_number, String loan_amount, String monthly_payment, String rate, String open_date, String months) {
+    public boolean insertLoan (String user_id, String account_name, String account_number, String loan_amount, String monthly_payment, String rate, String open_date, int months, int number_of_paid_months) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
@@ -166,6 +167,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("rate", rate);
         contentValues.put("open_date", open_date);
         contentValues.put("months",months);
+        contentValues.put("number_of_paid_months",number_of_paid_months);
         db.insert("loans", null, contentValues);
         return true;
     }
@@ -213,27 +215,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean updateIncome (Integer id, String title, String amount, String date) {
+    public boolean updateIncome (Integer id, String title, String amount, String date, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
         contentValues.put("amount", amount);
         contentValues.put("date", date);
-        db.update("incomes", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        db.update("incomes", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
         return true;
     }
 
-    public boolean updateCost (Integer id, String title, String amount, String date) {
+    public boolean updateCost (Integer id, String title, String amount, String date, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
         contentValues.put("amount", amount);
         contentValues.put("date", date);
-        db.update("costs", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        db.update("costs", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
         return true;
     }
 
-    public boolean updateLoan (Integer id, String account_name, String account_number, String loan_amount, String monthly_payment, String rate, String open_date, String months) {
+    public boolean updateLoan (Integer id, String account_name, String account_number, String loan_amount, String monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("account_name", account_name);
@@ -243,7 +245,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("rate", rate);
         contentValues.put("open_date", open_date);
         contentValues.put("months",months);
-        db.update("loans", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        contentValues.put("number_of_paid_months",number_of_paid_months);
+        db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
         return true;
     }
 
@@ -254,25 +257,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id) });
     }
 
-    public Integer deleteIncome (Integer id) {
+    public Integer deleteIncome (Integer id, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("incomes",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
+                "id = ? AND user_id = ? ",
+                new String[] { Integer.toString(id), Integer.toString(user_id) });
     }
 
-    public Integer deleteCost (Integer id) {
+    public Integer deleteCost (Integer id, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("costs",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
+                "id = ? AND user_id = ? ",
+                new String[] { Integer.toString(id), Integer.toString(user_id) });
     }
 
-    public Integer deleteLoan (Integer id) {
+    public Integer deleteLoan (Integer id, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("loans",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
+                "id = ? AND user_id = ? ",
+                new String[] { Integer.toString(id), Integer.toString(user_id) });
     }
 
 
@@ -306,12 +309,42 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
+    public ArrayList<String> getAllCurrentMonthIncomes() {
+        ArrayList<String> array_list = new ArrayList<String>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from incomes"+ " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now'))", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            array_list.add(res.getString(res.getColumnIndex(INCOMES_COLUMN_TITLE)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
     public ArrayList<String> getAllCosts() {
         ArrayList<String> array_list = new ArrayList<String>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from costs", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            array_list.add(res.getString(res.getColumnIndex(COSTS_COLUMN_TITLE)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+    public ArrayList<String> getAllCurrentMonthCosts() {
+        ArrayList<String> array_list = new ArrayList<String>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from costs"+ " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now'))", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -334,5 +367,29 @@ public class DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
         }
         return array_list;
+    }
+
+    // Count Current Month Income
+    public float CurrentMonthIncome(){
+        float x = 0;
+        SQLiteDatabase db = getReadableDatabase();
+        String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now'))";
+        Cursor c = db.rawQuery(getamountdata, null);
+        if(c.moveToFirst()){
+            x = c.getFloat(0);
+        }
+        return x;
+    }
+
+    // Count Current Month Cost
+    public float CurrentMonthCost(){
+        float x = 0;
+        SQLiteDatabase db = getReadableDatabase();
+        String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now'))";
+        Cursor c = db.rawQuery(getamountdata, null);
+        if(c.moveToFirst()){
+            x = c.getFloat(0);
+        }
+        return x;
     }
 }

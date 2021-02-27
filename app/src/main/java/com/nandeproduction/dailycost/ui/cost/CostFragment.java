@@ -39,7 +39,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
         });
 
         //Date Start
-        eText=(EditText) root.findViewById(R.id.editDate);
+        eText=(EditText) root.findViewById(R.id.txtCostDate);
         eText.setInputType(InputType.TYPE_NULL);
         eText.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,7 +40,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         });
 
         //Date Start
-        eText=(EditText) root.findViewById(R.id.editDate);
+        eText=(EditText) root.findViewById(R.id.txtLoanOpenDate);
         eText.setInputType(InputType.TYPE_NULL);
         eText.setOnClickListener(new View.OnClickListener() {
             @Override
