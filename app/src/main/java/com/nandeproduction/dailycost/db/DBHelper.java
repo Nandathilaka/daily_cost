@@ -8,6 +8,8 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.nandeproduction.dailycost.ui.income.IncomeFragment;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -75,31 +77,31 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table contacts " +
-                        "(id integer primary key , name text,phone text,email text, street text,place text)"
+                        "(id integer primary key , name text,phone text,email text, street text,place text);"
         );
 
         // Create Users Table
         db.execSQL(
                 "create table users " +
-                        "(user_id interger primary key AUTOINCREMENT, first_name text, last_name text, email text UNIQUE, street text, country text)"
+                        "(user_id integer primary key , first_name text, last_name text, email text UNIQUE, street text, country text);"
         );
 
         // Create Income Table
         db.execSQL(
                 "create table incomes " +
-                        "(id interger primary key AUTOINCREMENT, user_id interger ,title text, amount interger, date text, foreign key (user_id) references users (user_id))"
+                        "(id integer primary key , user_id interger ,title text, amount interger, date text, foreign key (user_id) references users (user_id));"
         );
 
         // Create Cost Table
         db.execSQL(
                 "create table costs " +
-                        "(id interger primary key AUTOINCREMENT, user_id interger ,title text, amount interger, date text, foreign key (user_id) references users (user_id))"
+                        "(id integer primary key , user_id interger ,title text, amount interger, date text, foreign key (user_id) references users (user_id));"
         );
 
         // Create Loan Table
         db.execSQL(
                 "create table loans " +
-                        "(id interger primary key AUTOINCREMENT, user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, foreign key (user_id) references users (user_id))"
+                        "(id integer primary key , user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, foreign key (user_id) references users (user_id));"
         );
     }
 
@@ -107,6 +109,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS incomes");
+        db.execSQL("DROP TABLE IF EXISTS costs");
+        db.execSQL("DROP TABLE IF EXISTS loans");
         onCreate(db);
     }
 
@@ -118,8 +124,12 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("email", email);
         contentValues.put("street", street);
         contentValues.put("place", place);
-        db.insert("contacts", null, contentValues);
-        return true;
+        long result = db.insert("contacts", null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public boolean insertUser (String fname, String lname, String email, String street,String country) {
@@ -129,34 +139,46 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("last_name", lname);
         contentValues.put("email", email);
         contentValues.put("street", street);
-        contentValues.put("place", country);
-        db.insert("users", null, contentValues);
-        return true;
+        contentValues.put("country", country);
+        long result = db.insert("users", null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public boolean insertIncome (String user_id, String title, String amount, String date) {
+    public boolean insertIncome (int user_id, String title, int amount, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
         contentValues.put("title", title);
         contentValues.put("amount", amount);
         contentValues.put("date", date);
-        db.insert("income", null, contentValues);
-        return true;
+        long result = db.insert("incomes", null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public boolean insertCost (String user_id, String title, String amount, String date) {
+    public boolean insertCost (int user_id, String title, int amount, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
         contentValues.put("title", title);
         contentValues.put("amount", amount);
         contentValues.put("date", date);
-        db.insert("costs", null, contentValues);
-        return true;
+        long result = db.insert("costs", null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public boolean insertLoan (String user_id, String account_name, String account_number, String loan_amount, String monthly_payment, String rate, String open_date, int months, int number_of_paid_months) {
+    public boolean insertLoan (int user_id, String account_name, String account_number, int loan_amount, int monthly_payment, String rate, String open_date, int months, int number_of_paid_months) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
@@ -168,8 +190,12 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("open_date", open_date);
         contentValues.put("months",months);
         contentValues.put("number_of_paid_months",number_of_paid_months);
-        db.insert("loans", null, contentValues);
-        return true;
+        long result = db.insert("loans", null, contentValues);
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 
@@ -189,6 +215,23 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         int numOfLoansRows = (int) DatabaseUtils.queryNumEntries(db, LOANS_TABLE_NAME);
         return numOfLoansRows;
+    }
+
+    public int checkUser(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numOfUserRows = (int) DatabaseUtils.queryNumEntries(db, USERS_TABLE_NAME);
+        return numOfUserRows;
+    }
+
+    public int getCurrentUserID(){
+        int x=0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getamountdata = "SELECT user_id AS id FROM "+ USERS_TABLE_NAME + " ORDER BY ROWID ASC LIMIT 1";
+        Cursor c = db.rawQuery(getamountdata, null);
+        if(c.moveToFirst()){
+            x = c.getInt(0);
+        }
+        return x;
     }
 
     public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {

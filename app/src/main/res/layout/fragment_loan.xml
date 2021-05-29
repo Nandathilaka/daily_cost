@@ -101,7 +101,7 @@
                         <EditText
                             android:padding="8dp"
                             android:layout_margin="8dp"
-                            android:id="@+id/txtLoanAount"
+                            android:id="@+id/txtLoanAmount"
                             android:fontFamily="serif"
                             android:background="@drawable/text_background"
                             android:textColor="#fff"
@@ -146,7 +146,7 @@
                             android:background="@drawable/text_background"
                             android:textColor="#fff"
                             android:layout_width="match_parent"
-                            android:hint="Year/Month"
+                            android:hint="Number of Period(Months)"
                             android:layout_height="wrap_content" />
                         <Button
                             android:id="@+id/btnSave"

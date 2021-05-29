@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserRegistration">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:fontFamily="serif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SIGN UP"/>
+
+                <EditText
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtFirstName"
+                    android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:hint="First Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtLastName"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:hint="Last Name"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtEmail"
+                    android:padding="8dp"
+                    android:textColor="#fff"
+                    android:hint="Emai or Phone Number"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/btnSignUp"
+                    android:layout_gravity="center"
+                    android:fontFamily="serif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="SIGN UP"/>
+
+                <TextView
+                    android:id="@+id/txtError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:fontFamily="serif"
+                    android:text="Daily Income"
+                    android:gravity="center"/>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

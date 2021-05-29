@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class AppLoading extends AppCompatActivity {
+import com.nandeproduction.dailycost.db.DBHelper;
 
+public class AppLoading extends AppCompatActivity {
+    DBHelper DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_loading);
 
+        DB = new DBHelper(getApplicationContext());
         Thread thread = new Thread(){
             @Override
             public void run() {
@@ -20,10 +23,14 @@ public class AppLoading extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }finally {
-
-                    Intent mainIntent = new Intent(AppLoading.this, MainActivity.class);
-                    startActivity(mainIntent);
-
+                    int userCouunt = DB.checkUser();
+                    if(userCouunt>0){
+                        Intent mainIntent = new Intent(AppLoading.this, MainActivity.class);
+                        startActivity(mainIntent);
+                    }else{
+                        Intent userIntent = new Intent(AppLoading.this, UserRegistration.class);
+                        startActivity(userIntent);
+                    }
                 }
             }
         };
