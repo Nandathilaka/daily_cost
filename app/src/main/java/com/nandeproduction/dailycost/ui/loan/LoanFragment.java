@@ -18,8 +18,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.R;
 import com.nandeproduction.dailycost.db.DBHelper;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -34,6 +37,8 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
     EditText txtLoanInterestRate;
     EditText txtLoanOpenDate;
     EditText txtLoanMonths;
+    TextView lblNumberOfLoans;
+    TextView lblTotalLoans;
     DBHelper DB;
     Button btnSave;
 
@@ -71,6 +76,10 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         txtLoanOpenDate = root.findViewById(R.id.txtLoanOpenDate);
         txtLoanMonths = root.findViewById(R.id.txtLoanMonths);
         btnSave = root.findViewById(R.id.btnSave);
+        lblNumberOfLoans = root.findViewById(R.id.lblNumberOfLoans);
+        lblTotalLoans = root.findViewById(R.id.lblTotalLoans);
+        lblNumberOfLoans.setText("Loans("+DB.numberOfLoansRows()+")");
+        lblTotalLoans.setText("Total Loans : " + DB.numberOfLoansRows());
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +87,13 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
 
                 String accountNumber = String.valueOf(txtLoanAccount.getText());
                 String accountName = String.valueOf(txtLoanAccountName.getText());
-                int loanAmmount = Integer.valueOf(txtLoanAmount.getText().toString());
+                long loanAmmount = Long.valueOf(txtLoanAmount.getText().toString());
                 int loanMonthlyPayment = Integer.valueOf(txtLoanMonthlyPayment.getText().toString());
                 String loanRate = String.valueOf(txtLoanInterestRate.getText());
                 String loanOpenDate = String.valueOf(txtLoanOpenDate.getText());
                 int loanNumberOfMonths = Integer.valueOf(txtLoanMonths.getText().toString());
                 int currentUserID = DB.getCurrentUserID();
-                Boolean insertLoan = DB.insertLoan(currentUserID,accountName,accountNumber,loanAmmount,loanMonthlyPayment,loanRate,loanOpenDate,loanNumberOfMonths,1);
+                Boolean insertLoan = DB.insertLoan(currentUserID,accountName,accountNumber,loanAmmount,loanMonthlyPayment, DateConverter.DateConvertToString(loanRate),loanOpenDate,loanNumberOfMonths,1);
                 if(insertLoan == true){
                     Toast.makeText(getContext(),"Loan Insert Successfully", Toast.LENGTH_SHORT).show();
                 }
@@ -107,7 +116,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = year + "/" + month + "/" + dayOfMonth;
+        String date = year + "-" + (month+1) + "-" + dayOfMonth;
         txtLoanOpenDate.setText(date);
     }
 

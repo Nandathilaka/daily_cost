@@ -41,6 +41,16 @@
                 android:textAlignment="center"
                 android:textStyle="bold"
                 android:textSize="30sp" />
+            <TextView
+                android:id="@+id/lblTotalIncomeThisMonthSum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textSize="30sp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -139,34 +149,64 @@
 
                                 <TextView
                                     android:textColor="#000"
-                                    android:id="@+id/position"
+                                    android:id="@+id/date"
                                     android:fontFamily="serif"
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="Date"/>
+                                    android:layout_weight="1.2"
+                                    android:textAlignment="center"
+                                    android:text="Date"
+                                    android:gravity="center_horizontal" />
                                 <TextView
-                                    android:id="@+id/age"
+                                    android:id="@+id/amount"
                                     android:textColor="#000"
                                     android:fontFamily="serif"
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="Amount"/>
+                                    android:textAlignment="center"
+                                    android:layout_weight="1.5"
+                                    android:text="Amount"
+                                    android:gravity="center_horizontal" />
                                 <TextView
                                     android:textColor="#000"
-                                    android:id="@+id/address"
+                                    android:id="@+id/title"
                                     android:fontFamily="serif"
                                     android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
-                                    android:layout_weight="1"
+                                    android:textAlignment="center"
+                                    android:layout_weight="1.8"
+                                    android:text="Title"
+                                    android:gravity="center_horizontal" />
+
+                                <!--
+                                <TextView
+                                    android:textColor="#000"
+                                    android:id="@+id/option"
+                                    android:fontFamily="serif"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="0.7"
                                     android:text="Option"/>
+                                -->
+
+                                <TextView
+                                    android:textColor="#000"
+                                    android:id="@+id/Delete"
+                                    android:fontFamily="serif"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="0.7"
+                                    android:textAlignment="center"
+                                    android:text="Option"
+                                    android:gravity="center_horizontal" />
 
                             </TableRow>
-                            <View
-                                android:layout_height="3dip"
+
+                            <ListView
+                                android:id="@+id/listView"
                                 android:layout_width="match_parent"
-                                android:background="#ff0000"/>
+                                android:layout_height="140dp"
+                                android:background="#ffffff"/>
                         </TableLayout>
 
                     </LinearLayout>

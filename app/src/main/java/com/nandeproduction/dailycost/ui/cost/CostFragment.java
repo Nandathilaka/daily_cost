@@ -18,10 +18,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.R;
 import com.nandeproduction.dailycost.db.DBHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CostFragment extends Fragment implements DatePickerDialog.OnDateSetListener{
 
@@ -29,6 +33,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
     EditText txtCostDate;
     EditText txtCostTitle;
     EditText txtCostAmount;
+    TextView lblTotalCostThisMonthSum;
     DBHelper DB;
     Button btnSave;
 
@@ -60,6 +65,8 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         //Cost Start
         DB = new DBHelper(getContext());
+        lblTotalCostThisMonthSum = root.findViewById(R.id.lblTotalCostThisMonthSum);
+        lblTotalCostThisMonthSum.setText(Long.valueOf(DB.CurrentMonthCost()).toString());
         txtCostTitle = root.findViewById(R.id.txtCostTitle);
         txtCostAmount = root.findViewById(R.id.txtCostAmount);
         txtCostDate = root.findViewById(R.id.txtCostDate);
@@ -70,10 +77,10 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onClick(View v) {
 
                 String title = String.valueOf(txtCostTitle.getText());
-                int ammount = Integer.valueOf(txtCostAmount.getText().toString());
+                long ammount = Long.valueOf(txtCostAmount.getText().toString());
                 String date = String.valueOf(txtCostDate.getText());
                 int currentUserID = DB.getCurrentUserID();
-                Boolean insertCost = DB.insertCost(currentUserID,title,ammount,date);
+                Boolean insertCost = DB.insertCost(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
                 if(insertCost == true){
                     Toast.makeText(getContext(),"Cost Insert Successfully", Toast.LENGTH_SHORT).show();
                 }
@@ -95,7 +102,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = year + "/" + month + "/" + dayOfMonth;
+        String date = year + "-" + (month+1) + "-" + dayOfMonth;
         txtCostDate.setText(date);
     }
 
@@ -105,7 +112,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
         int thisYear = calendar.get(Calendar.YEAR);
         int thisMonth = calendar.get(Calendar.MONTH);
         int thisDay = calendar.get(Calendar.DAY_OF_MONTH);
-        String date = thisYear + "/" + thisMonth + "/" + thisDay;
+        String date = thisYear + "-" + (thisMonth+1) + "-" + thisDay;
         txtCostDate.setText(date);
     }
 }
