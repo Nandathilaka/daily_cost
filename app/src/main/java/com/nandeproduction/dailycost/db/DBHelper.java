@@ -275,8 +275,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("street", street);
         contentValues.put("place", place);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
+        long result = db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     //Update user table data given by the User ID
@@ -289,8 +294,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("street", street);
         contentValues.put("country", country);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        db.update("users", contentValues, "user_id = ? ", new String[] { Integer.toString(user_id) } );
-        return true;
+        long result = db.update("users", contentValues, "user_id = ? ", new String[] { Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     //Update income table data given by the ID
@@ -301,8 +311,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("amount", amount);
         contentValues.put("date", date);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        db.update("incomes", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
-        return true;
+        long result = db.update("incomes", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     //Update Cost table data given by the ID
@@ -313,8 +328,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("amount", amount);
         contentValues.put("date", date);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        db.update("costs", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
-        return true;
+        long result = db.update("costs", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     //Update Cost table data given by the ID
@@ -330,8 +350,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("months",months);
         contentValues.put("number_of_paid_months",number_of_paid_months);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
-        return true;
+        long result = db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     //Delete data in the Contact table given by the ID

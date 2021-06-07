@@ -46,11 +46,12 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
     EditText txtIncomeAmount;
     TextView lblTotalIncomeThisMonthSum;
     DBHelper DB;
-    Button btnSave;
+    Button btnSave,btnUpdate,btnClear;
     ListView listView;
     private ArrayList<Income> incomeList;
+    int itemID = 0;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         incomeViewModel =
                 ViewModelProviders.of(this).get(IncomeViewModel.class);
@@ -76,11 +77,51 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         });
         //Date End
 
-        //Get current month all incomes
+        //Initialized Database
+        DB = new DBHelper(getContext());
+        //Get Current User ID
+        final int userID = DB.getCurrentUserID();
+
+        //Click item in the list Start
+        incomeList = new ArrayList<Income>();
+        listView = (ListView) root.findViewById(R.id.listView);
         getAllCurrentMonthIncime();
+        final IncomeListviewAdapter adapter = new IncomeListviewAdapter(getActivity(), incomeList);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Income selecteedIncome = incomeList.get(position);
+                itemID = selecteedIncome.getId();
+                //String incomeId = ((TextView)view.findViewById(R.id.id)).getText().toString();
+                String incomeTitle = ((TextView)view.findViewById(R.id.title)).getText().toString();
+                String incomeAmount = ((TextView)view.findViewById(R.id.amount)).getText().toString();
+                String incomeDate = ((TextView)view.findViewById(R.id.date)).getText().toString();
+                txtIncomeTitle.setText(incomeTitle);
+                txtIncomeAmount.setText(incomeAmount);
+                txtIncomeDate.setText(DateConverter.setCalanderDate(incomeDate));
+                btnUpdate.setVisibility(View.VISIBLE);
+                btnClear.setVisibility(View.VISIBLE);
+                /*
+                Toast.makeText(getContext(),
+                        "Income Id : " + incomeId +"\n"
+                                +"Title : " + incomeTitle +"\n"
+                                +"Amount : " +incomeAmount +"\n"
+                                +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
+                */
+
+                Toast.makeText(getContext(),
+                        "Title : " + incomeTitle +"\n"
+                                +"Amount : " +incomeAmount +"\n"
+                                +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        //Click item in the list End
 
         //Income Start
-        DB = new DBHelper(getContext());
         lblTotalIncomeThisMonthSum = root.findViewById(R.id.lblTotalIncomeThisMonthSum);
         lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
         txtIncomeTitle = root.findViewById(R.id.txtIncomeTitle);
@@ -96,13 +137,47 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
                 String date = String.valueOf(txtIncomeDate.getText());
                 int currentUserID = DB.getCurrentUserID();
                 Boolean insertIncome = DB.insertIncome(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
+                DB.close();
                 if(insertIncome == true){
+                    refreshList();
                     Toast.makeText(getContext(),"Income Insert Successfully", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         //Income End
 
+        //Update Start
+        btnUpdate = root.findViewById(R.id.btnUpdate);
+        btnUpdate.setVisibility(View.INVISIBLE);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String updatedTitle = txtIncomeTitle.getText().toString();
+                Long updatedAmount = Long.valueOf(txtIncomeAmount.getText().toString());
+                String updatedDate = txtIncomeDate.getText().toString();
+                Boolean update = DB.updateIncome(itemID,updatedTitle,updatedAmount,DateConverter.DateConvertToString(updatedDate),userID);
+                DB.close();
+                if(update){
+                    defualtUI();
+                    refreshList();
+                    Toast.makeText(getContext(),"Income Update Successfully", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getContext(),"Income Update Unsuccessfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //Update End
+
+        //Clear Start
+        btnClear = root.findViewById(R.id.btnClear);
+        btnClear.setVisibility(View.INVISIBLE);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                defualtUI();
+            }
+        });
+        //Clear End
 
 
         /*
@@ -119,42 +194,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         //List Income End
         */
 
-        //Click item in the list Start
-        incomeList = new ArrayList<Income>();
-        listView = (ListView) root.findViewById(R.id.listView);
-        //incomeList = getAllCurrentMonthIncime();
-        getAllCurrentMonthIncime();
-        final IncomeListviewAdapter adapter = new IncomeListviewAdapter(getActivity(), incomeList);
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String incomeId = ((TextView)view.findViewById(R.id.id)).getText().toString();
-                String incomeTitle = ((TextView)view.findViewById(R.id.title)).getText().toString();
-                String incomeAmount = ((TextView)view.findViewById(R.id.amount)).getText().toString();
-                String incomeDate = ((TextView)view.findViewById(R.id.date)).getText().toString();
-                txtIncomeTitle.setText(incomeTitle);
-                txtIncomeAmount.setText(incomeAmount);
-                txtIncomeDate.setText(DateConverter.setCalanderDate(incomeDate));
-
-                /*
-                Toast.makeText(getContext(),
-                        "Income Id : " + incomeId +"\n"
-                                +"Title : " + incomeTitle +"\n"
-                                +"Amount : " +incomeAmount +"\n"
-                                +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
-                */
-
-                Toast.makeText(getContext(),
-                                "Title : " + incomeTitle +"\n"
-                                +"Amount : " +incomeAmount +"\n"
-                                +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        //Click item in the list End
 
         /*
         //Click item in the list Start
@@ -189,7 +229,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         txtIncomeDate.setText(date);
     }
 
-    public void setCurrentDate(){
+    private void setCurrentDate(){
         Calendar calendar = Calendar.getInstance();
         //Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int thisYear = calendar.get(Calendar.YEAR);
@@ -199,11 +239,28 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         txtIncomeDate.setText(date);
     }
 
-    public void getAllCurrentMonthIncime(){
+    private void getAllCurrentMonthIncime(){
         //ArrayList<Income> arrayList = new ArrayList<Income>();
         DB = new DBHelper(getContext());
         incomeList = DB.getAllCurrentMonthIncomes();
         DB.close();
         //return arrayList;
+    }
+
+    private void defualtUI(){
+        txtIncomeTitle.setText("");
+        txtIncomeAmount.setText("");
+        setCurrentDate();
+        btnUpdate.setVisibility(View.INVISIBLE);
+        btnClear.setVisibility(View.INVISIBLE);
+
+    }
+
+    private void refreshList(){
+        lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        getAllCurrentMonthIncime();
+        IncomeListviewAdapter refreshAdapter = new IncomeListviewAdapter(getActivity(), incomeList);
+        listView.setAdapter(refreshAdapter);
+        refreshAdapter.notifyDataSetChanged();
     }
 }
