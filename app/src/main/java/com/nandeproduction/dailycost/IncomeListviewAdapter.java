@@ -1,13 +1,17 @@
 package com.nandeproduction.dailycost;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
 
 public class IncomeListviewAdapter extends BaseAdapter {
@@ -48,7 +52,7 @@ public class IncomeListviewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
+        final ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
 
         if (convertView == null) {
@@ -70,7 +74,35 @@ public class IncomeListviewAdapter extends BaseAdapter {
         //holder.mId.setText(Integer.valueOf(item.getId()).toString());
         holder.mAmount.setText(Integer.valueOf(item.getAmount()).toString());
         holder.mDate.setText(DateConverter.setCalanderDate(item.getDate().toString()));
-        holder.icon.setImageResource(R.drawable.ic_menu_send);
+        holder.icon.setImageResource(R.drawable.delete);
+
+        final View finalConvertView = convertView;
+        holder.icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //System.out.println(holder.mTitle.getText() +"Icon click in listview already works!!");
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                System.out.println(holder.mTitle.getText() +" Deleted successfully!!");
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                System.out.println(holder.mTitle.getText() +" Deleted unsuccessfully!!");
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
+        });
 
         return convertView;
     }

@@ -104,18 +104,13 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
                 txtIncomeDate.setText(DateConverter.setCalanderDate(incomeDate));
                 btnUpdate.setVisibility(View.VISIBLE);
                 btnClear.setVisibility(View.VISIBLE);
-                /*
-                Toast.makeText(getContext(),
-                        "Income Id : " + incomeId +"\n"
-                                +"Title : " + incomeTitle +"\n"
-                                +"Amount : " +incomeAmount +"\n"
-                                +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
-                */
 
                 Toast.makeText(getContext(),
                         "Title : " + incomeTitle +"\n"
                                 +"Amount : " +incomeAmount +"\n"
                                 +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
+
+
 
             }
         });
@@ -123,7 +118,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
 
         //Income Start
         lblTotalIncomeThisMonthSum = root.findViewById(R.id.lblTotalIncomeThisMonthSum);
-        lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        lblTotalIncomeThisMonthSum.setText(getCurrentMonthIncome());
         txtIncomeTitle = root.findViewById(R.id.txtIncomeTitle);
         txtIncomeAmount = root.findViewById(R.id.txtIncomeAmount);
         txtIncomeDate = root.findViewById(R.id.txtIncomeDate);
@@ -139,6 +134,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
                 Boolean insertIncome = DB.insertIncome(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
                 DB.close();
                 if(insertIncome == true){
+                    defualtUI();
                     refreshList();
                     Toast.makeText(getContext(),"Income Insert Successfully", Toast.LENGTH_SHORT).show();
                 }
@@ -179,36 +175,6 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         });
         //Clear End
 
-
-        /*
-        //List Income Start
-        listView = (ListView)root.findViewById(R.id.listView);
-        ArrayList<Income> incomeList = new ArrayList<Income>();
-        incomeList = getAllCurrentMonthIncime();
-        List<String> your_array_list = new ArrayList<String>();
-        your_array_list.add("2021-06-05"+"     "+"5000"+"       "+"View");
-        your_array_list.add("bar");
-        //IncomeAdapter adapter = new IncomeAdapter((Activity) getContext(),incomeList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item_1, your_array_list);
-        listView.setAdapter(adapter);
-        //List Income End
-        */
-
-
-
-        /*
-        //Click item in the list Start
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(getActivity(),
-                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-        //Click item in the list End
-        */
         return root;
     }
 
@@ -237,6 +203,13 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         int thisDay = calendar.get(Calendar.DAY_OF_MONTH);
         String date = thisYear + "-" + (thisMonth+1) + "-" + thisDay;
         txtIncomeDate.setText(date);
+    }
+
+    private String getCurrentMonthIncome(){
+        DB = new DBHelper(getContext());
+        long currentMonthIncome = DB.CurrentMonthIncome();
+        DB.close();
+        return Long.valueOf(currentMonthIncome).toString();
     }
 
     private void getAllCurrentMonthIncime(){

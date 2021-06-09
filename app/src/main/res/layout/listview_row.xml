@@ -57,6 +57,7 @@
         android:layout_height = "match_parent"
         android:background = "@drawable/cell_shape"
         android:padding = "5dp"
-        android:src="@drawable/ic_menu_share" >
+        android:src="@drawable/delete"
+        android:focusable="false">
     </ImageView>
 </LinearLayout>
