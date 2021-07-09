@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.Income;
-import com.nandeproduction.dailycost.ui.income.IncomeFragment;
+import com.nandeproduction.dailycost.IncomeListviewAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,31 +79,31 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table contacts " +
-                        "(id integer primary key , name text,phone text,email text, street text,place text, date_created text, date_updated text);"
+                        "(id integer primary key , name text,phone text,email text, street text,place text, date_created text, date_updated text, deleted integer default 0);"
         );
 
         // Create Users Table
         db.execSQL(
                 "create table users " +
-                        "(user_id integer primary key , first_name text, last_name text, email text UNIQUE, street text, country text, date_created text, date_updated text);"
+                        "(user_id integer primary key , first_name text, last_name text, email text UNIQUE, street text, country text, date_created text, date_updated text, deleted integer default 0);"
         );
 
         // Create Income Table
         db.execSQL(
                 "create table incomes " +
-                        "(id integer primary key , user_id interger ,title text, amount interger, date text, date_created text, date_updated text, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger ,title text, amount interger, date text, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
         );
 
         // Create Cost Table
         db.execSQL(
                 "create table costs " +
-                        "(id integer primary key , user_id interger ,title text, amount interger, date text, date_created text, date_updated text, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger ,title text, amount interger, date text, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
         );
 
         // Create Loan Table
         db.execSQL(
                 "create table loans " +
-                        "(id integer primary key , user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, date_created text, date_updated text, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
         );
     }
 
@@ -359,6 +359,21 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    //Hide income table data given by the ID, To do that update the "deleted" column as 1 (1 mean deleted raw item/ 0 mean non-deleted raw item)
+    public boolean hideIncome (Integer id, Integer user_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("deleted", 1);
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.update("incomes", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     //Delete data in the Contact table given by the ID
     public Integer deleteContact (Integer id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -431,7 +446,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from incomes"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) ORDER BY id DESC", null );
+        Cursor res =  db.rawQuery( "select * from incomes"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted=0 ORDER BY date DESC", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -502,7 +517,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public long CurrentMonthIncome(){
         long x = 0;
         SQLiteDatabase db = getReadableDatabase();
-        String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now'))";
+        String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) and deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
             x= c.getLong(0);

@@ -58,6 +58,22 @@
         android:background = "@drawable/cell_shape"
         android:padding = "5dp"
         android:src="@drawable/delete"
-        android:focusable="false">
+        android:focusable="false"
+        android:onClick="myClickHandler">
     </ImageView>
+
+    <!--
+    <Button
+        android:id="@+id/icon"
+        android:layout_weight = "0.1"
+        android:layout_gravity="center"
+        android:fontFamily="serif"
+        android:padding = "5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:background="@drawable/delete"
+        />
+    -->
 </LinearLayout>

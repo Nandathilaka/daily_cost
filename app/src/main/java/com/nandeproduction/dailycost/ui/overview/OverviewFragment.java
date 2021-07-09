@@ -1,6 +1,7 @@
 package com.nandeproduction.dailycost.ui.overview;
 
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import com.nandeproduction.dailycost.db.DBHelper;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class OverviewFragment extends Fragment {
 
     private OverviewViewModel overviewViewModel;
@@ -27,6 +31,7 @@ public class OverviewFragment extends Fragment {
     TextView lblCostThisYear;
     TextView lblAssetThisYear;
     TextView lblNumberOfLoans;
+    TextView txtTime;
     DBHelper DB;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -41,7 +46,11 @@ public class OverviewFragment extends Fragment {
                 textView.setText(s);
             }
         });
-
+        txtTime = root.findViewById(R.id.txtTime);
+        Date today=new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
+        String currentDateTimeString = sdf.format(today);
+        txtTime.setText("Here's info as at "+ currentDateTimeString + ", Today. Pull to refresh");
         lblAssetThisMonth = root.findViewById(R.id.lblAssetThisMonth);
         lblAssetThisYear = root.findViewById(R.id.lblAssetThisYear);
         DB = new DBHelper(getContext());
@@ -62,7 +71,7 @@ public class OverviewFragment extends Fragment {
         lblNumberOfLoans = root.findViewById(R.id.lblNumberOfLoans);
         int numberofLoans = DB.numberOfLoansRows();
         lblNumberOfLoans.setText("Loans("+numberofLoans+")");
-
+        DB.close();
         return root;
     }
 }

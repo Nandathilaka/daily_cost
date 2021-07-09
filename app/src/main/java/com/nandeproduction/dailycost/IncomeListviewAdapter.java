@@ -2,22 +2,38 @@ package com.nandeproduction.dailycost;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.nandeproduction.dailycost.db.DBHelper;
+
 import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
+
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.adapter;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.lblTotalIncomeThisMonthSum;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.listView;
 
 public class IncomeListviewAdapter extends BaseAdapter {
 
     public ArrayList<Income> incomeList;
     Activity activity;
+    DBHelper DB;
 
     public IncomeListviewAdapter(Activity activity, ArrayList<Income> itemList) {
         super();
@@ -50,13 +66,14 @@ public class IncomeListviewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         final ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.listview_row, null);
+            //convertView = inflater.inflate(R.layout.listview_row, null);
+            convertView = inflater.inflate(R.layout.listview_row, parent,false);
             holder = new ViewHolder();
             //holder.mId = (TextView) convertView.findViewById(R.id.id);
             holder.mTitle = (TextView) convertView.findViewById(R.id.title);
@@ -74,25 +91,35 @@ public class IncomeListviewAdapter extends BaseAdapter {
         //holder.mId.setText(Integer.valueOf(item.getId()).toString());
         holder.mAmount.setText(Integer.valueOf(item.getAmount()).toString());
         holder.mDate.setText(DateConverter.setCalanderDate(item.getDate().toString()));
-        holder.icon.setImageResource(R.drawable.delete);
 
         final View finalConvertView = convertView;
+        final View finalConvertView1 = convertView;
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //System.out.println(holder.mTitle.getText() +"Icon click in listview already works!!");
+                //System.out.println(position +" Deleted Position Item");
+                Income item = incomeList.get(position);
+                final int itemId = item.getId();
+                DB = new DBHelper(activity.getApplicationContext());
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                System.out.println(holder.mTitle.getText() +" Deleted successfully!!");
+                                DB.hideIncome(itemId,DB.getCurrentUserID());
+                                //incomeList.remove(position);
+                                getAllCurrentMonthIncime();
+                                adapter.incomeList = incomeList;
+                                listView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                                Toast.makeText(activity.getApplicationContext(),"Delete Item Successfully", Toast.LENGTH_SHORT).show();
+                                System.out.println(itemId +" Deleted successfully!!");
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
-                                System.out.println(holder.mTitle.getText() +" Deleted unsuccessfully!!");
+                                System.out.println(itemId +" Deleted unsuccessfully!!");
                                 break;
                         }
                     }
@@ -105,6 +132,14 @@ public class IncomeListviewAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    private void getAllCurrentMonthIncime(){
+        DB = new DBHelper(activity.getApplicationContext());
+        lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        incomeList.clear();
+        incomeList = DB.getAllCurrentMonthIncomes();
+        DB.close();
     }
 }
 

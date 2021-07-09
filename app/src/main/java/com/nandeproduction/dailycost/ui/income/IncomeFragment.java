@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,12 +49,14 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
     EditText txtIncomeDate;
     EditText txtIncomeTitle;
     EditText txtIncomeAmount;
-    TextView lblTotalIncomeThisMonthSum;
+    public static TextView lblTotalIncomeThisMonthSum;
     DBHelper DB;
     Button btnSave,btnUpdate,btnClear;
-    ListView listView;
-    private ArrayList<Income> incomeList;
+    public static ListView listView;
+    ImageView icon;
+    public static ArrayList<Income> incomeList;
     int itemID = 0;
+    public static IncomeListviewAdapter adapter = null;
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,6 +74,8 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         //Date Start
         txtIncomeDate=(EditText) root.findViewById(R.id.txtIncomeDate);
         txtIncomeDate.setInputType(InputType.TYPE_NULL);
+        txtIncomeDate.setFocusableInTouchMode(true);
+        txtIncomeDate.setFocusable(false);
         //Set current date default
         setCurrentDate();
         txtIncomeDate.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +95,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         incomeList = new ArrayList<Income>();
         listView = (ListView) root.findViewById(R.id.listView);
         getAllCurrentMonthIncime();
-        final IncomeListviewAdapter adapter = new IncomeListviewAdapter(getActivity(), incomeList);
+        adapter = new IncomeListviewAdapter(getActivity(), incomeList);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -127,17 +136,20 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = String.valueOf(txtIncomeTitle.getText());
-                long ammount = (long)Double.parseDouble(txtIncomeAmount.getText().toString());
-                String date = String.valueOf(txtIncomeDate.getText());
-                int currentUserID = DB.getCurrentUserID();
-                Boolean insertIncome = DB.insertIncome(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
-                DB.close();
-                if(insertIncome == true){
-                    defualtUI();
-                    refreshList();
-                    Toast.makeText(getContext(),"Income Insert Successfully", Toast.LENGTH_SHORT).show();
+                if(inputValidate()){
+                    String title = String.valueOf(txtIncomeTitle.getText());
+                    long ammount = (long)Double.parseDouble(txtIncomeAmount.getText().toString());
+                    String date = String.valueOf(txtIncomeDate.getText());
+                    int currentUserID = DB.getCurrentUserID();
+                    Boolean insertIncome = DB.insertIncome(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
+                    DB.close();
+                    if(insertIncome == true){
+                        defualtUI();
+                        refreshList();
+                        Toast.makeText(getContext(),"Income Insert Successfully", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
         //Income End
@@ -174,6 +186,37 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
             }
         });
         //Clear End
+
+        //Validate only float and integer input to amount Start
+        txtIncomeAmount.setFilters(new InputFilter[]{
+                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
+                    int beforeDecimal = 10, afterDecimal = 2;
+
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        String temp = txtIncomeAmount.getText() + source.toString();
+
+                        if (temp.equals(".")) {
+                            return "0.";
+                        }
+                        else if (temp.toString().indexOf(".") == -1) {
+                            // no decimal point placed yet
+                            if (temp.length() > beforeDecimal) {
+                                return "";
+                            }
+                        } else {
+                            temp = temp.substring(temp.indexOf(".") + 1);
+                            if (temp.length() > afterDecimal) {
+                                return "";
+                            }
+                        }
+
+                        return super.filter(source, start, end, dest, dstart, dend);
+                    }
+                }
+        });
+        //Validate only float and integer input to amount End
 
         return root;
     }
@@ -226,14 +269,35 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         setCurrentDate();
         btnUpdate.setVisibility(View.INVISIBLE);
         btnClear.setVisibility(View.INVISIBLE);
-
+        txtIncomeTitle.requestFocus();
     }
 
-    private void refreshList(){
+    public void refreshList(){
         lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
         getAllCurrentMonthIncime();
         IncomeListviewAdapter refreshAdapter = new IncomeListviewAdapter(getActivity(), incomeList);
         listView.setAdapter(refreshAdapter);
         refreshAdapter.notifyDataSetChanged();
+    }
+
+    private Boolean inputValidate(){
+        Boolean isformValid = false;
+        if(txtIncomeTitle.getText().toString().length() > 0){
+            isformValid = true;
+            if(txtIncomeAmount.getText().toString().length() > 0){
+                isformValid = true;
+            }else {
+                isformValid = false;
+                txtIncomeAmount.setFocusable(true);
+                txtIncomeAmount.requestFocus();
+                Toast.makeText(getContext(), "Please enter amount", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            isformValid = false;
+            txtIncomeTitle.setFocusable(true);
+            txtIncomeTitle.requestFocus();
+            Toast.makeText(getContext(),"Please enter title", Toast.LENGTH_SHORT).show();
+        }
+        return isformValid;
     }
 }
