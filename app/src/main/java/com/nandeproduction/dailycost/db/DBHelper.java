@@ -390,12 +390,42 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id), Integer.toString(user_id) });
     }
 
+    //Hide costs table data given by the ID, To do that update the "deleted" column as 1 (1 mean deleted raw item/ 0 mean non-deleted raw item)
+    public boolean hideCost (Integer id, Integer user_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("deleted", 1);
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.update("costs", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     //Delete data in the Cost table given by the ID
     public Integer deleteCost (Integer id, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete("costs",
                 "id = ? AND user_id = ? ",
                 new String[] { Integer.toString(id), Integer.toString(user_id) });
+    }
+
+    //Hide loans table data given by the ID, To do that update the "deleted" column as 1 (1 mean deleted raw item/ 0 mean non-deleted raw item)
+    public boolean hideLoan (Integer id, Integer user_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("deleted", 1);
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     //Delete data in the Loan table given by the ID
@@ -429,7 +459,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from incomes", null );
+        Cursor res =  db.rawQuery( "select * from incomes WHERE deleted = 0", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -446,7 +476,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from incomes"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted=0 ORDER BY date DESC", null );
+        Cursor res =  db.rawQuery( "select * from incomes"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted = 0 ORDER BY date DESC", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -468,7 +498,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from costs", null );
+        Cursor res =  db.rawQuery( "select * from costs WHERE deleted = 0", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -485,7 +515,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from costs"+ " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now'))", null );
+        Cursor res =  db.rawQuery( "select * from costs"+ " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now')) AND deleted = 0 ORDER BY date DESC", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -502,7 +532,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from loans", null );
+        Cursor res =  db.rawQuery( "select * from loans WHERE deleted = 0", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
@@ -530,7 +560,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public long CurrentMonthCost(){
         long x = 0;
         SQLiteDatabase db = getReadableDatabase();
-        String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now'))";
+        String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
             x = c.getLong(0);
@@ -544,7 +574,7 @@ public class DBHelper extends SQLiteOpenHelper {
         long x = 0;
         float y = 0;
         SQLiteDatabase db = getReadableDatabase();
-        String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now'))";
+        String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
             x = c.getLong(0);
@@ -557,7 +587,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public long CurrentYearCost(){
         long x = 0;
         SQLiteDatabase db = getReadableDatabase();
-        String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now'))";
+        String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
             x = c.getLong(0);

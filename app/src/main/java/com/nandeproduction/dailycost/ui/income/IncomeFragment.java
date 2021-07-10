@@ -46,12 +46,12 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
 
     private IncomeViewModel incomeViewModel;
 
-    EditText txtIncomeDate;
-    EditText txtIncomeTitle;
-    EditText txtIncomeAmount;
+    public static EditText txtIncomeDate;
+    public static EditText txtIncomeTitle;
+    public static EditText txtIncomeAmount;
     public static TextView lblTotalIncomeThisMonthSum;
     DBHelper DB;
-    Button btnSave,btnUpdate,btnClear;
+    public static Button btnSave,btnUpdate,btnClear;
     public static ListView listView;
     ImageView icon;
     public static ArrayList<Income> incomeList;
@@ -119,8 +119,6 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
                                 +"Amount : " +incomeAmount +"\n"
                                 +"Date : " +incomeDate, Toast.LENGTH_SHORT).show();
 
-
-
             }
         });
         //Click item in the list End
@@ -160,17 +158,19 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String updatedTitle = txtIncomeTitle.getText().toString();
-                Long updatedAmount = Long.valueOf(txtIncomeAmount.getText().toString());
-                String updatedDate = txtIncomeDate.getText().toString();
-                Boolean update = DB.updateIncome(itemID,updatedTitle,updatedAmount,DateConverter.DateConvertToString(updatedDate),userID);
-                DB.close();
-                if(update){
-                    defualtUI();
-                    refreshList();
-                    Toast.makeText(getContext(),"Income Update Successfully", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getContext(),"Income Update Unsuccessfully", Toast.LENGTH_SHORT).show();
+                if(inputValidate()){
+                    String updatedTitle = txtIncomeTitle.getText().toString();
+                    Long updatedAmount = Long.valueOf(txtIncomeAmount.getText().toString());
+                    String updatedDate = txtIncomeDate.getText().toString();
+                    Boolean update = DB.updateIncome(itemID,updatedTitle,updatedAmount,DateConverter.DateConvertToString(updatedDate),userID);
+                    DB.close();
+                    if(update){
+                        defualtUI();
+                        refreshList();
+                        Toast.makeText(getContext(),"Income Update Successfully", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getContext(),"Income Update Unsuccessfully", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

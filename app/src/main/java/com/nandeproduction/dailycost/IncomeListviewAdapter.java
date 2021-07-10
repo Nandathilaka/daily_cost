@@ -24,10 +24,16 @@ import com.nandeproduction.dailycost.db.DBHelper;
 
 import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static com.nandeproduction.dailycost.ui.income.IncomeFragment.adapter;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.btnClear;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.btnUpdate;
 import static com.nandeproduction.dailycost.ui.income.IncomeFragment.lblTotalIncomeThisMonthSum;
 import static com.nandeproduction.dailycost.ui.income.IncomeFragment.listView;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.txtIncomeAmount;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.txtIncomeDate;
+import static com.nandeproduction.dailycost.ui.income.IncomeFragment.txtIncomeTitle;
 
 public class IncomeListviewAdapter extends BaseAdapter {
 
@@ -108,11 +114,8 @@ public class IncomeListviewAdapter extends BaseAdapter {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 DB.hideIncome(itemId,DB.getCurrentUserID());
-                                //incomeList.remove(position);
-                                getAllCurrentMonthIncime();
-                                adapter.incomeList = incomeList;
-                                listView.setAdapter(adapter);
-                                adapter.notifyDataSetChanged();
+                                incomeList.remove(position);
+                                setDefaultUI();
                                 Toast.makeText(activity.getApplicationContext(),"Delete Item Successfully", Toast.LENGTH_SHORT).show();
                                 System.out.println(itemId +" Deleted successfully!!");
                                 break;
@@ -137,9 +140,27 @@ public class IncomeListviewAdapter extends BaseAdapter {
     private void getAllCurrentMonthIncime(){
         DB = new DBHelper(activity.getApplicationContext());
         lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
-        incomeList.clear();
+        //incomeList.clear();
         incomeList = DB.getAllCurrentMonthIncomes();
         DB.close();
+    }
+
+    private void setDefaultUI(){
+        Calendar calendar = Calendar.getInstance();
+        //Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int thisYear = calendar.get(Calendar.YEAR);
+        int thisMonth = calendar.get(Calendar.MONTH);
+        int thisDay = calendar.get(Calendar.DAY_OF_MONTH);
+        String date = thisYear + "-" + (thisMonth+1) + "-" + thisDay;
+        txtIncomeDate.setText(date);
+        txtIncomeTitle.setText("");
+        txtIncomeAmount.setText("");
+        btnClear.setVisibility(View.INVISIBLE);
+        btnUpdate.setVisibility(View.INVISIBLE);
+        getAllCurrentMonthIncime();
+        adapter.incomeList = incomeList;
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }
 
