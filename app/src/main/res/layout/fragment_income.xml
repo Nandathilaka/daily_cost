@@ -247,7 +247,10 @@
                                     android:gravity="center_horizontal" />
 
                             </TableRow>
-
+                            <View
+                                android:layout_height="3dip"
+                                android:layout_width="match_parent"
+                                android:background="#ff0000"/>
                             <ListView
                                 android:id="@+id/listView"
                                 android:layout_width="match_parent"

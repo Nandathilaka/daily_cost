@@ -8,9 +8,11 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.nandeproduction.dailycost.Cost;
 import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.Income;
 import com.nandeproduction.dailycost.IncomeListviewAdapter;
+import com.nandeproduction.dailycost.Loan;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -338,7 +340,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Update Cost table data given by the ID
-    public boolean updateLoan (Integer id, String account_name, String account_number, long loan_amount, String monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
+    public boolean updateLoan (Integer id, String account_name, String account_number, long loan_amount, long monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("account_name", account_name);
@@ -510,16 +512,21 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Get all current month cost data list
-    public ArrayList<String> getAllCurrentMonthCosts() {
-        ArrayList<String> array_list = new ArrayList<String>();
+    public ArrayList<Cost> getAllCurrentMonthCosts() {
+        ArrayList<Cost> array_list = new ArrayList<Cost>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from costs"+ " WHERE strftime('%Y',entry_date) = strftime('%Y',date('now')) AND  strftime('%m',entry_date) = strftime('%m',date('now')) AND deleted = 0 ORDER BY date DESC", null );
+        Cursor res =  db.rawQuery( "select * from costs"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted = 0 ORDER BY date DESC", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(COSTS_COLUMN_TITLE)));
+            Cost cost = new Cost();
+            cost.setId(res.getInt(res.getColumnIndex(INCOMES_COLUMN_ID)));
+            cost.setTitle(res.getString(res.getColumnIndex(INCOMES_COLUMN_TITLE)));
+            cost.setAmount(res.getLong(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
+            cost.setDate(res.getString(res.getColumnIndex(INCOMES_COLUMN_DATE)));
+            array_list.add(cost);
             res.moveToNext();
         }
         db.close();
@@ -527,16 +534,24 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Get all loans
-    public ArrayList<String> getAllLoans() {
-        ArrayList<String> array_list = new ArrayList<String>();
-
+    public ArrayList<Loan> getAllLoans() {
+        ArrayList<Loan> array_list = new ArrayList<Loan>();
+        Loan loan = new Loan();
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from loans WHERE deleted = 0", null );
         res.moveToFirst();
-
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(LOANS_COLUMN_ACCOUNT_NAME)));
+            loan.setId(Integer.parseInt(res.getString(res.getColumnIndex("id"))));
+            loan.setAccountName(res.getString(res.getColumnIndex("account_number")));
+            loan.setAccountNumber(res.getString(res.getColumnIndex("account_name")));
+            loan.setLoanAmount(Long.parseLong(res.getString(res.getColumnIndex("loan_amount"))));
+            loan.setMonthlyPayment(Long.parseLong(res.getString(res.getColumnIndex("monthly_payment"))));
+            loan.setInterestRate(Long.parseLong(res.getString(res.getColumnIndex("rate"))));
+            loan.setOpenDate(res.getString(res.getColumnIndexOrThrow("open_date")));
+            loan.setNumberOfMonth(Integer.parseInt(res.getString(res.getColumnIndex("months"))));
+            loan.setNumberOfPaidMonths(Integer.parseInt(res.getString(res.getColumnIndex("number_of_paid_months"))));
+            array_list.add(loan);
             res.moveToNext();
         }
         db.close();

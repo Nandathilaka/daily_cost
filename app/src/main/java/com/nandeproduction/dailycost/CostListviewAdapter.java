@@ -2,59 +2,49 @@ package com.nandeproduction.dailycost;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.nandeproduction.dailycost.db.DBHelper;
 
-import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.adapter;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.btnClear;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.btnUpdate;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.lblTotalIncomeThisMonthSum;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.listView;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.txtIncomeAmount;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.txtIncomeDate;
-import static com.nandeproduction.dailycost.ui.income.IncomeFragment.txtIncomeTitle;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.adapter;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.btnClear;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.btnUpdate;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.lblTotalCostThisMonthSum;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.listView;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.txtCostAmount;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.txtCostDate;
+import static com.nandeproduction.dailycost.ui.cost.CostFragment.txtCostTitle;
 
-public class IncomeListviewAdapter extends BaseAdapter {
+public class CostListviewAdapter extends BaseAdapter {
 
-    public ArrayList<Income> incomeList;
+    public ArrayList<Cost> costList;
     Activity activity;
     DBHelper DB;
 
-    public IncomeListviewAdapter(Activity activity, ArrayList<Income> itemList) {
+    public CostListviewAdapter(Activity activity, ArrayList<Cost> itemList) {
         super();
         this.activity = activity;
-        this.incomeList = itemList;
+        this.costList = itemList;
     }
 
     @Override
     public int getCount() {
-        return incomeList.size();
+        return costList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return incomeList.get(position);
+        return costList.get(position);
     }
 
     @Override
@@ -91,7 +81,7 @@ public class IncomeListviewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Income item = incomeList.get(position);
+        Cost item = costList.get(position);
 
         holder.mTitle.setText(item.getTitle().toString());
         //holder.mId.setText(Integer.valueOf(item.getId()).toString());
@@ -103,7 +93,7 @@ public class IncomeListviewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 //System.out.println(position +" Deleted Position Item");
-                Income item = incomeList.get(position);
+                Cost item = costList.get(position);
                 final int itemId = item.getId();
                 DB = new DBHelper(activity.getApplicationContext());
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -112,8 +102,8 @@ public class IncomeListviewAdapter extends BaseAdapter {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                DB.hideIncome(itemId,DB.getCurrentUserID());
-                                incomeList.remove(position);
+                                DB.hideCost(itemId,DB.getCurrentUserID());
+                                costList.remove(position);
                                 setDefaultUI();
                                 Toast.makeText(activity.getApplicationContext(),"Delete Item Successfully", Toast.LENGTH_SHORT).show();
                                 System.out.println(itemId +" Deleted successfully!!");
@@ -136,11 +126,11 @@ public class IncomeListviewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void getAllCurrentMonthIncome(){
+    private void getAllCurrentMonthCost(){
         DB = new DBHelper(activity.getApplicationContext());
-        lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
-        //incomeList.clear();
-        incomeList = DB.getAllCurrentMonthIncomes();
+        lblTotalCostThisMonthSum.setText(Long.valueOf(DB.CurrentMonthCost()).toString());
+        //costList.clear();
+        costList = DB.getAllCurrentMonthCosts();
         DB.close();
     }
 
@@ -151,15 +141,14 @@ public class IncomeListviewAdapter extends BaseAdapter {
         int thisMonth = calendar.get(Calendar.MONTH);
         int thisDay = calendar.get(Calendar.DAY_OF_MONTH);
         String date = thisYear + "-" + (thisMonth+1) + "-" + thisDay;
-        txtIncomeDate.setText(date);
-        txtIncomeTitle.setText("");
-        txtIncomeAmount.setText("");
+        txtCostDate.setText(date);
+        txtCostTitle.setText("");
+        txtCostAmount.setText("");
         btnClear.setVisibility(View.INVISIBLE);
         btnUpdate.setVisibility(View.INVISIBLE);
-        getAllCurrentMonthIncome();
-        adapter.incomeList = incomeList;
+        getAllCurrentMonthCost();
+        adapter.costList = costList;
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 }
-

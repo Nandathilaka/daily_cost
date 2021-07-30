@@ -45,7 +45,6 @@ import static android.R.layout.simple_list_item_1;
 public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private IncomeViewModel incomeViewModel;
-
     public static EditText txtIncomeDate;
     public static EditText txtIncomeTitle;
     public static EditText txtIncomeAmount;
@@ -94,7 +93,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         //Click item in the list Start
         incomeList = new ArrayList<Income>();
         listView = (ListView) root.findViewById(R.id.listView);
-        getAllCurrentMonthIncime();
+        getAllCurrentMonthIncome();
         adapter = new IncomeListviewAdapter(getActivity(), incomeList);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -255,7 +254,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
         return Long.valueOf(currentMonthIncome).toString();
     }
 
-    private void getAllCurrentMonthIncime(){
+    private void getAllCurrentMonthIncome(){
         //ArrayList<Income> arrayList = new ArrayList<Income>();
         DB = new DBHelper(getContext());
         incomeList = DB.getAllCurrentMonthIncomes();
@@ -274,7 +273,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
 
     public void refreshList(){
         lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
-        getAllCurrentMonthIncime();
+        getAllCurrentMonthIncome();
         IncomeListviewAdapter refreshAdapter = new IncomeListviewAdapter(getActivity(), incomeList);
         listView.setAdapter(refreshAdapter);
         refreshAdapter.notifyDataSetChanged();

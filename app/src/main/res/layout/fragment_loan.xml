@@ -60,156 +60,226 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp"
+                        android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true">
+                        android:layout_margin="10dp"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_gravity="center"
-                            android:layout_margin="16dp"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="#000"
-                            android:fontFamily="serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add Loan"/>
+                            android:layout_gravity="center"
+                            android:layout_margin="16dp"
+                            android:fontFamily="serif"
+                            android:text="Add Loan"
+                            android:textColor="#000"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
                         <EditText
-                            android:layout_margin="8dp"
                             android:id="@+id/txtLoanAccount"
-                            android:padding="8dp"
-                            android:fontFamily="serif"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
                             android:background="@drawable/text_background"
-                            android:textColor="#fff"
+                            android:fontFamily="serif"
                             android:hint="Account Number"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:padding="8dp"
+                            android:textColor="#fff" />
 
                         <EditText
-                            android:layout_margin="8dp"
                             android:id="@+id/txtLoanAccountName"
-                            android:padding="8dp"
-                            android:fontFamily="serif"
-                            android:background="@drawable/text_background"
-                            android:textColor="#fff"
-                            android:hint="Account Name"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/text_background"
+                            android:fontFamily="serif"
+                            android:hint="Account Name"
+                            android:padding="8dp"
+                            android:textColor="#fff" />
 
                         <EditText
-                            android:padding="8dp"
-                            android:layout_margin="8dp"
                             android:id="@+id/txtLoanAmount"
-                            android:fontFamily="serif"
-                            android:background="@drawable/text_background"
-                            android:textColor="#fff"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/text_background"
+                            android:fontFamily="serif"
                             android:hint="Loan Amount"
-                            android:layout_height="wrap_content" />
-                        <EditText
                             android:padding="8dp"
-                            android:layout_margin="8dp"
+                            android:textColor="#fff" />
+
+                        <EditText
                             android:id="@+id/txtLoanMonthlyPayment"
-                            android:fontFamily="serif"
-                            android:background="@drawable/text_background"
-                            android:textColor="#fff"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/text_background"
+                            android:fontFamily="serif"
                             android:hint="Monthly Payment"
-                            android:layout_height="wrap_content" />
-                        <EditText
                             android:padding="8dp"
-                            android:layout_margin="8dp"
+                            android:textColor="#fff" />
+
+                        <EditText
                             android:id="@+id/txtLoanInterestRate"
-                            android:fontFamily="serif"
-                            android:background="@drawable/text_background"
-                            android:textColor="#fff"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/text_background"
+                            android:fontFamily="serif"
                             android:hint="Interest Rate % P.A."
-                            android:layout_height="wrap_content" />
+                            android:padding="8dp"
+                            android:textColor="#fff" />
+
                         <EditText
-                            android:layout_margin="8dp"
                             android:id="@+id/txtLoanOpenDate"
-                            android:padding="8dp"
-                            android:textColor="#fff"
-                            android:hint="Open Date"
-                            android:fontFamily="serif"
-                            android:background="@drawable/text_background"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                        <EditText
-                            android:padding="8dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:id="@+id/txtLoanMonths"
-                            android:fontFamily="serif"
                             android:background="@drawable/text_background"
-                            android:textColor="#fff"
+                            android:fontFamily="serif"
+                            android:hint="Open Date"
+                            android:padding="8dp"
+                            android:textColor="#fff" />
+
+                        <EditText
+                            android:id="@+id/txtLoanMonths"
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/text_background"
+                            android:fontFamily="serif"
                             android:hint="Number of Period(Months)"
-                            android:layout_height="wrap_content" />
-                        <Button
+                            android:padding="8dp"
+                            android:textColor="#fff" />
+                        <!--<Button
                             android:id="@+id/btnSave"
                             android:layout_gravity="center"
                             android:fontFamily="serif"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:text="Save"/>
+                            android:text="Save"/>-->
 
+                        <TableLayout
+                            android:id="@+id/table_layout_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
+
+                            <TableRow
+                                android:id="@+id/table_row_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp">
+
+                                <Button
+                                    android:id="@+id/btnUpdate"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1.2"
+                                    android:fontFamily="serif"
+                                    android:text="Update"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <Button
+                                    android:id="@+id/btnSave"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1.2"
+                                    android:fontFamily="serif"
+                                    android:text="Save"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+
+                                <Button
+                                    android:id="@+id/btnClear"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1.2"
+                                    android:fontFamily="serif"
+                                    android:text="Clear"
+                                    android:textStyle="bold"
+                                    android:visibility="visible" />
+                            </TableRow>
+                        </TableLayout>
 
                         <TextView
                             android:id="@+id/lblNumberOfLoans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="#000"
-                            android:textSize="20sp"
                             android:fontFamily="serif"
+                            android:gravity="center"
                             android:text="Loans(1)"
-                            android:gravity="center"/>
+                            android:textColor="#000"
+                            android:textSize="20sp" />
 
                         <TableLayout
-                            android:layout_marginTop="10dp"
                             android:id="@+id/table_layout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
 
                             <TableRow
-                                android:layout_height="wrap_content"
-                                android:layout_width="match_parent"
                                 android:id="@+id/table_row1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:padding="10dp">
 
                                 <TextView
-                                    android:textColor="#000"
-                                    android:id="@+id/position"
-                                    android:fontFamily="serif"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/accountNumber"
                                     android:layout_width="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="Acc Number"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.5"
+                                    android:fontFamily="serif"
+                                    android:text="Acc Nu"
+                                    android:textColor="#000" />
+
                                 <TextView
-                                    android:id="@+id/age"
-                                    android:textColor="#000"
-                                    android:fontFamily="serif"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/nextPayment"
                                     android:layout_width="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="Current Balance"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:fontFamily="serif"
+                                    android:text="Payment"
+                                    android:textColor="#000" />
+
                                 <TextView
-                                    android:textColor="#000"
-                                    android:id="@+id/address"
-                                    android:fontFamily="serif"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/nextPaymentDate"
                                     android:layout_width="match_parent"
-                                    android:layout_weight="1"
-                                    android:text="Option"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:fontFamily="serif"
+                                    android:text="Next Payment Date"
+                                    android:textColor="#000" />
+
+                                <TextView
+                                    android:id="@+id/options"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.2"
+                                    android:fontFamily="serif"
+                                    android:text="Option"
+                                    android:textColor="#000" />
 
                             </TableRow>
+
                             <View
-                                android:layout_height="3dip"
                                 android:layout_width="match_parent"
-                                android:background="#ff0000"/>
+                                android:layout_height="3dip"
+                                android:background="#ff0000" />
+
+                            <ListView
+                                android:id="@+id/listView"
+                                android:layout_width="match_parent"
+                                android:layout_height="135dp"
+                                android:layout_weight="1"
+                                android:background="#ffffff"
+                                android:focusable="true" />
                         </TableLayout>
 
                     </LinearLayout>
