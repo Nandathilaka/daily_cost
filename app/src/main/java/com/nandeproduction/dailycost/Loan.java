@@ -7,14 +7,14 @@ public class Loan {
     private String accountNumber; // bla bla bla..
     private String accountName; // commercial bank
     private long loanAmount; // 1,500,000
-    private float monthlyPayment; // 31,000
-    private float interestRate; // 9.75
+    private double monthlyPayment; // 31,000
+    private double interestRate; // 9.75
     private String openDate;
     private int numberOfMonth;
     private List<LoanPeriod> loanPeriod;
     private int numberOfPaidMonths;
-    private float totalPaid; // (monthlyPayment * numberOfMonth)
-    private float interestAmount;//  totalPaid - loanAmount
+    private double totalPaid; // (monthlyPayment * numberOfMonth)
+    private double interestAmount;//  totalPaid - loanAmount
 
     public int getId(){
         return id;
@@ -26,31 +26,55 @@ public class Loan {
         return accountNumber;
     }
     public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+        if(accountNumber != null && accountNumber.length() > 0){
+            this.accountNumber = accountNumber;
+        }else{
+            this.accountNumber = "No Account Number";
+        }
+
     }
     public String getAccountName(){
         return accountName;
     }
     public void setAccountName(String accountName){
-        this.accountName = accountName;
+        if(accountName != null && accountName.length() > 0){
+            this.accountName = accountName;
+        }else{
+            this.accountName = "No Account Name";
+        }
     }
     public long getLoanAmount(){
         return loanAmount;
     }
     public void setLoanAmount(long loanAmount){
-        this.loanAmount = loanAmount;
+        if(loanAmount != 0 && loanAmount > 0){
+            this.loanAmount = loanAmount;
+        }else{
+            this.loanAmount = 0;
+        }
     }
-    public float getMonthlyPayment(){
+    public double getMonthlyPayment(){
         return monthlyPayment;
     }
-    public void setMonthlyPayment(float monthlyPayment){
-        this.monthlyPayment = monthlyPayment;
+    public void setMonthlyPayment(String monthlyPayment){
+        if(monthlyPayment != "" && monthlyPayment.length() > 0){
+            this.monthlyPayment = Double.parseDouble(monthlyPayment);
+        }else{
+            this.monthlyPayment = 0.00;
+        }
     }
-    public float getInterestRate(){
+    public double getInterestRate(){
         return interestRate;
     }
-    public void setInterestRate(float interestRate){
-        this.interestRate = interestRate;
+    public void setInterestRate(String interestRate){
+        if (interestRate != "" && interestRate.length() > 0) {
+            try {
+                this.interestRate = Float.parseFloat(interestRate);;
+            } catch(Exception e) {
+                this.interestRate = (float) 0.00;;   // or some value to mark this field is wrong. or make a function validates field first ...
+            }
+        }
+        else this.interestRate = (float) 0.00;
     }
 
     public String getOpenDate() {
@@ -82,15 +106,23 @@ public class Loan {
     }
 
     public void setNumberOfPaidMonths(int numberOfPaidMonths) {
-        this.numberOfPaidMonths = numberOfPaidMonths;
+        if(numberOfPaidMonths != 0 && numberOfPaidMonths > 0){
+            this.numberOfPaidMonths = numberOfPaidMonths;
+        }else {
+            this.numberOfPaidMonths = 1;
+        }
     }
 
-    public float getTotalPaid() {
+    public double getTotalPaid() {
         return totalPaid = monthlyPayment * numberOfMonth;
     }
 
-    public float getInterestAmount() {
-        return interestAmount = totalPaid - loanAmount;
+    public double getInterestAmount() {
+        if(totalPaid > 0){
+            return interestAmount = totalPaid - loanAmount;
+        }else{
+            return 0;
+        }
     }
 
 }

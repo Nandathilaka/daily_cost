@@ -106,6 +106,11 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 txtLoanAccount.setText(accountNumber);
                 txtLoanMonthlyPayment.setText(payment);
                 txtLoanOpenDate.setText(DateConverter.setCalanderDate(nextPaymentDate));
+                txtLoanAccount.setText(selecteedLoan.getAccountNumber());
+                txtLoanAccountName.setText(selecteedLoan.getAccountName());
+                txtLoanInterestRate.setText(Double.toString(selecteedLoan.getInterestRate()));
+                txtLoanMonths.setText(Integer.toString(selecteedLoan.getNumberOfMonth()));
+                txtLoanAmount.setText(Long.toString(selecteedLoan.getLoanAmount()));
                 btnUpdate.setVisibility(View.VISIBLE);
                 btnClear.setVisibility(View.VISIBLE);
 
@@ -130,8 +135,9 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         btnSave = root.findViewById(R.id.btnSave);
         lblNumberOfLoans = root.findViewById(R.id.lblNumberOfLoans);
         lblTotalLoans = root.findViewById(R.id.lblTotalLoans);
-        lblNumberOfLoans.setText("Loans("+DB.numberOfLoansRows()+")");
-        lblTotalLoans.setText("Total Loans : " + DB.numberOfLoansRows());
+        int numberOfLoan = DB.numberOfActiveLoansRows();
+        lblNumberOfLoans.setText("Loans("+numberOfLoan+")");
+        lblTotalLoans.setText("Total Loans : " + numberOfLoan);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +173,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                     String accountNumber = String.valueOf(txtLoanAccount.getText());
                     String accountName = String.valueOf(txtLoanAccountName.getText());
                     long loanAmmount = Long.valueOf(txtLoanAmount.getText().toString());
-                    long loanMonthlyPayment = Long.valueOf(txtLoanMonthlyPayment.getText().toString());
+                    double loanMonthlyPayment = Double.valueOf(txtLoanMonthlyPayment.getText().toString());
                     String loanRate = String.valueOf(txtLoanInterestRate.getText());
                     String loanOpenDate = String.valueOf(txtLoanOpenDate.getText());
                     int loanNumberOfMonths = Integer.valueOf(txtLoanMonths.getText().toString());
@@ -177,9 +183,9 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                     if(update){
                         defaultUI();
                         refreshList();
-                        Toast.makeText(getContext(),"Income Update Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Loan Update Successfully", Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(getContext(),"Income Update Unsuccessfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Loan Update Unsuccessfully", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -284,8 +290,9 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     public void refreshList(){
-        lblNumberOfLoans.setText("Loans("+DB.numberOfLoansRows()+")");
-        lblTotalLoans.setText("Total Loans : " + DB.numberOfLoansRows());
+        int numberOfLoan = DB.numberOfActiveLoansRows();
+        lblNumberOfLoans.setText("Loans("+numberOfLoan+")");
+        lblTotalLoans.setText("Total Loans : " + numberOfLoan);
         getAllLoan();
         LoanListviewAdapter refreshAdapter = new LoanListviewAdapter(getActivity(), loanList);
         listView.setAdapter(refreshAdapter);
@@ -301,8 +308,13 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         txtLoanInterestRate.setText("");
         txtLoanOpenDate.setText("");
         txtLoanMonths.setText("");
-        lblNumberOfLoans.setText("Loans("+DB.numberOfLoansRows()+")");
-        lblTotalLoans.setText("Total Loans : " + DB.numberOfLoansRows());
+        int numberOfLoan = DB.numberOfActiveLoansRows();
+        lblNumberOfLoans.setText("Loans("+numberOfLoan+")");
+        lblTotalLoans.setText("Total Loans : " + numberOfLoan);
+        btnUpdate.setVisibility(View.INVISIBLE);
+        btnClear.setVisibility(View.INVISIBLE);
+        txtLoanAccount.requestFocus();
+        DB.close();
     }
 
     private Boolean inputValidate(){

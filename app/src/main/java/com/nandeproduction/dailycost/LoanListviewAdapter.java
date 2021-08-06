@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.nandeproduction.dailycost.db.DBHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static com.nandeproduction.dailycost.ui.loan.LoanFragment.adapter;
 import static com.nandeproduction.dailycost.ui.loan.LoanFragment.btnClear;
@@ -89,8 +88,9 @@ public class LoanListviewAdapter extends BaseAdapter {
 
         holder.accNumber.setText(item.getAccountNumber().toString());
         //holder.mId.setText(Integer.valueOf(item.getId()).toString());
-        holder.payment.setText(Integer.valueOf(String.valueOf(item.getMonthlyPayment())).toString());
+        holder.payment.setText(Double.valueOf(String.valueOf(item.getMonthlyPayment())).toString());
         holder.nextPaymentDate.setText(DateConverter.setCalanderDate(item.getOpenDate().toString()));
+
 
         final View finalConvertView = convertView;
         holder.icon.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,7 @@ public class LoanListviewAdapter extends BaseAdapter {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                DB.hideIncome(itemId,DB.getCurrentUserID());
+                                DB.hideLoan(itemId,DB.getCurrentUserID());
                                 loanList.remove(position);
                                 setDefaultUI();
                                 Toast.makeText(activity.getApplicationContext(),"Delete Item Successfully", Toast.LENGTH_SHORT).show();
@@ -132,8 +132,11 @@ public class LoanListviewAdapter extends BaseAdapter {
 
     private void getAllLoan(){
         DB = new DBHelper(activity.getApplicationContext());
-        lblTotalLoans.setText(Long.valueOf(DB.numberOfLoansRows()).toString());
-        lblNumberOfLoans.setText(Long.valueOf(DB.numberOfRows()).toString());
+        int numberOfLoan = DB.numberOfActiveLoansRows();
+        lblNumberOfLoans.setText("Loans("+numberOfLoan+")");
+        lblTotalLoans.setText("Total Loans : " + numberOfLoan);
+        //lblTotalLoans.setText(Long.valueOf(DB.numberOfLoansRows()).toString());
+        //lblNumberOfLoans.setText(Long.valueOf(DB.numberOfRows()).toString());
         //incomeList.clear();
         loanList = DB.getAllLoans();
         DB.close();

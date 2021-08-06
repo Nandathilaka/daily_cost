@@ -239,6 +239,19 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Get number of rows in the Loan table
+    public int numberOfActiveLoansRows(){
+        int numOfLoansRows = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getamountdata = "SELECT count(*) FROM "+ LOANS_TABLE_NAME + " WHERE deleted = 0";
+        Cursor c = db.rawQuery(getamountdata, null);
+        if(c.moveToFirst()){
+            numOfLoansRows = (int) c.getLong(0);
+        }
+        db.close();
+        return numOfLoansRows;
+    }
+
+    //Get number of rows in the Loan table
     public int numberOfLoansRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numOfLoansRows = (int) DatabaseUtils.queryNumEntries(db, LOANS_TABLE_NAME);
@@ -340,7 +353,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Update Cost table data given by the ID
-    public boolean updateLoan (Integer id, String account_name, String account_number, long loan_amount, long monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
+    public boolean updateLoan (Integer id, String account_name, String account_number, long loan_amount, double monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("account_name", account_name);
@@ -536,18 +549,20 @@ public class DBHelper extends SQLiteOpenHelper {
     //Get all loans
     public ArrayList<Loan> getAllLoans() {
         ArrayList<Loan> array_list = new ArrayList<Loan>();
-        Loan loan = new Loan();
+        Loan loan ;
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from loans WHERE deleted = 0", null );
         res.moveToFirst();
         while(res.isAfterLast() == false){
+            loan = new Loan();
             loan.setId(Integer.parseInt(res.getString(res.getColumnIndex("id"))));
-            loan.setAccountName(res.getString(res.getColumnIndex("account_number")));
-            loan.setAccountNumber(res.getString(res.getColumnIndex("account_name")));
+            loan.setAccountName(res.getString(res.getColumnIndex("account_name")));
+            loan.setAccountNumber(res.getString(res.getColumnIndex("account_number")));
             loan.setLoanAmount(Long.parseLong(res.getString(res.getColumnIndex("loan_amount"))));
-            loan.setMonthlyPayment(Long.parseLong(res.getString(res.getColumnIndex("monthly_payment"))));
-            loan.setInterestRate(Long.parseLong(res.getString(res.getColumnIndex("rate"))));
+            loan.setMonthlyPayment(res.getString(res.getColumnIndex("monthly_payment")));
+            String a = (res.getString(res.getColumnIndex("monthly_payment")));
+            loan.setInterestRate(res.getString(res.getColumnIndex("rate")));
             loan.setOpenDate(res.getString(res.getColumnIndexOrThrow("open_date")));
             loan.setNumberOfMonth(Integer.parseInt(res.getString(res.getColumnIndex("months"))));
             loan.setNumberOfPaidMonths(Integer.parseInt(res.getString(res.getColumnIndex("number_of_paid_months"))));
