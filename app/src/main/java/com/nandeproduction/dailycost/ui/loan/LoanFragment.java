@@ -33,6 +33,7 @@ import com.nandeproduction.dailycost.db.DBHelper;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,6 +57,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
     public static ListView listView;
     int itemID = 0;
     public static LoanListviewAdapter adapter = null;
+    private static DecimalFormat df = new DecimalFormat("#.##");
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         //Date Start
         txtLoanOpenDate=(EditText) root.findViewById(R.id.txtLoanOpenDate);
         txtLoanOpenDate.setInputType(InputType.TYPE_NULL);
+        txtLoanOpenDate.setFocusableInTouchMode(true);
+        txtLoanOpenDate.setFocusable(false);
         txtLoanOpenDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +109,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 String nextPaymentDate = ((TextView)view.findViewById(R.id.nextPaymentDate)).getText().toString();
                 txtLoanAccount.setText(accountNumber);
                 txtLoanMonthlyPayment.setText(payment);
-                txtLoanOpenDate.setText(DateConverter.setCalanderDate(nextPaymentDate));
+                txtLoanOpenDate.setText(DateConverter.setCalanderDate(selecteedLoan.getOpenDate()));
                 txtLoanAccount.setText(selecteedLoan.getAccountNumber());
                 txtLoanAccountName.setText(selecteedLoan.getAccountName());
                 txtLoanInterestRate.setText(Double.toString(selecteedLoan.getInterestRate()));
@@ -146,7 +150,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                     String accountNumber = String.valueOf(txtLoanAccount.getText());
                     String accountName = String.valueOf(txtLoanAccountName.getText());
                     long loanAmmount = Long.valueOf(txtLoanAmount.getText().toString());
-                    int loanMonthlyPayment = Integer.valueOf(txtLoanMonthlyPayment.getText().toString());
+                    double loanMonthlyPayment = Double.valueOf(txtLoanMonthlyPayment.getText().toString());
                     String loanRate = String.valueOf(txtLoanInterestRate.getText());
                     String loanOpenDate = String.valueOf(txtLoanOpenDate.getText());
                     int loanNumberOfMonths = Integer.valueOf(txtLoanMonths.getText().toString());
@@ -155,6 +159,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                     if(insertLoan == true){
                         Toast.makeText(getContext(),"Loan Insert Successfully", Toast.LENGTH_SHORT).show();
                         defaultUI();
+                        refreshList();
                     }else{
                         Toast.makeText(getContext(),"Loan Insert Unsuccessfully", Toast.LENGTH_SHORT).show();
                     }
@@ -206,7 +211,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         //Validate only float and integer input to amount Start
         txtLoanAmount.setFilters(new InputFilter[]{
                 new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
-                    int beforeDecimal = 10, afterDecimal = 2;
+                    int beforeDecimal = 15, afterDecimal = 2;
 
                     @Override
                     public CharSequence filter(CharSequence source, int start, int end,
@@ -234,10 +239,134 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         });
         //Validate only float and integer input to amount End
 
+        //Validate only integer input to account Number Start
+        txtLoanAccount.setFilters(new InputFilter[]{
+                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
+                    int beforeDecimal = 20, afterDecimal = 0;
+
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        String temp = txtLoanAccount.getText() + source.toString();
+
+                        if (temp.equals(".")) {
+                            return "0.";
+                        }
+                        else if (temp.toString().indexOf(".") == -1) {
+                            // no decimal point placed yet
+                            if (temp.length() > beforeDecimal) {
+                                return "";
+                            }
+                        } else {
+                            temp = temp.substring(temp.indexOf(".") + 1);
+                            if (temp.length() > afterDecimal) {
+                                return "";
+                            }
+                        }
+
+                        return super.filter(source, start, end, dest, dstart, dend);
+                    }
+                }
+        });
+        //Validate only integer input to Account Number End
+
+        //Validate only float and integer input to monthly payment Start
+        txtLoanMonthlyPayment.setFilters(new InputFilter[]{
+                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
+                    int beforeDecimal = 15, afterDecimal = 2;
+
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        String temp = txtLoanMonthlyPayment.getText() + source.toString();
+
+                        if (temp.equals(".")) {
+                            return "0.";
+                        }
+                        else if (temp.toString().indexOf(".") == -1) {
+                            // no decimal point placed yet
+                            if (temp.length() > beforeDecimal) {
+                                return "";
+                            }
+                        } else {
+                            temp = temp.substring(temp.indexOf(".") + 1);
+                            if (temp.length() > afterDecimal) {
+                                return "";
+                            }
+                        }
+
+                        return super.filter(source, start, end, dest, dstart, dend);
+                    }
+                }
+        });
+        //Validate only float and integer input to monthly payment End
+
+        //Validate only float and integer input to interest rate Start
+        txtLoanInterestRate.setFilters(new InputFilter[]{
+                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
+                    int beforeDecimal = 2, afterDecimal = 2;
+
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        String temp = txtLoanInterestRate.getText() + source.toString();
+
+                        if (temp.equals(".")) {
+                            return "0.";
+                        }
+                        else if (temp.toString().indexOf(".") == -1) {
+                            // no decimal point placed yet
+                            if (temp.length() > beforeDecimal) {
+                                return "";
+                            }
+                        } else {
+                            temp = temp.substring(temp.indexOf(".") + 1);
+                            if (temp.length() > afterDecimal) {
+                                return "";
+                            }
+                        }
+
+                        return super.filter(source, start, end, dest, dstart, dend);
+                    }
+                }
+        });
+        //Validate only float and integer input to interest rate End
+
+        //Validate only float and integer input to loan month Start
+        txtLoanMonths.setFilters(new InputFilter[]{
+                new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
+                    int beforeDecimal = 3, afterDecimal = 0;
+
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        String temp = txtLoanMonths.getText() + source.toString();
+
+                        if (temp.equals(".")) {
+                            return "0.";
+                        }
+                        else if (temp.toString().indexOf(".") == -1) {
+                            // no decimal point placed yet
+                            if (temp.length() > beforeDecimal) {
+                                return "";
+                            }
+                        } else {
+                            temp = temp.substring(temp.indexOf(".") + 1);
+                            if (temp.length() > afterDecimal) {
+                                return "";
+                            }
+                        }
+
+                        return super.filter(source, start, end, dest, dstart, dend);
+                    }
+                }
+        });
+        //Validate only float and integer input to loan month End
+
         //Validate only float and integer input to amount Start
         txtLoanMonthlyPayment.setFilters(new InputFilter[]{
                 new DigitsKeyListener(Boolean.FALSE, Boolean.TRUE) {
-                    int beforeDecimal = 10, afterDecimal = 2;
+                    int beforeDecimal = 15, afterDecimal = 2;
 
                     @Override
                     public CharSequence filter(CharSequence source, int start, int end,

@@ -69,7 +69,7 @@ public class OverviewFragment extends Fragment {
         lblCostThisYear.setText(Long.toString(currentYearCost));
         lblAssetThisYear.setText(Long.toString(currentYearIncome-currentYearCost));
         lblNumberOfLoans = root.findViewById(R.id.lblNumberOfLoans);
-        int numberofLoans = DB.numberOfLoansRows();
+        int numberofLoans = DB.numberOfActiveLoansRows();
         lblNumberOfLoans.setText("Loans("+numberofLoans+")");
         DB.close();
         return root;

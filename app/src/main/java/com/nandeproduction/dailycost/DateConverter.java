@@ -47,4 +47,48 @@ public class DateConverter {
         }
         return correctDate;
     }
+
+    public static String nextPaymentDate(String loanOpenDate){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String nextPaymentDate = "";
+        Date selectedDate = null;
+        try {
+            selectedDate = sdf.parse(loanOpenDate);
+            Calendar calendar = Calendar.getInstance();
+            //Current month details
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONDAY);
+            int currentDate = calendar.get(Calendar.DATE);
+
+            //Loan date details
+            calendar.setTime(selectedDate);
+            int loanYear = calendar.get(Calendar.YEAR);
+            int loanMonth = calendar.get(Calendar.MONDAY);
+            int loanDate = calendar.get(Calendar.DATE);
+
+            if(currentDate > loanDate){
+                //If month is December
+                if(currentMonth == 11){
+                    nextPaymentDate = String.valueOf(currentYear+1) +"-"+ String.valueOf(1)+"-"+ String.valueOf(loanDate);
+                }else{
+                    nextPaymentDate = String.valueOf(currentYear) +"-"+ String.valueOf(currentMonth+2)+"-"+ String.valueOf(loanDate);
+                }
+
+            }else{
+                /*
+                //If month is December
+                if(currentMonth == 11){
+                    nextPaymentDate = String.valueOf(currentYear) +"-"+ String.valueOf(currentMonth+1)+"-"+ String.valueOf(loanDate);
+                }else{
+                    nextPaymentDate = String.valueOf(currentYear) +"-"+ String.valueOf(currentMonth+1)+"-"+ String.valueOf(loanDate);
+                }
+                */
+                nextPaymentDate = String.valueOf(currentYear) +"-"+ String.valueOf(currentMonth+1)+"-"+ String.valueOf(loanDate);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return nextPaymentDate;
+    }
 }

@@ -234,37 +234,41 @@
                                     android:id="@+id/accountNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1.5"
+                                    android:layout_weight="0.3"
                                     android:fontFamily="serif"
                                     android:text="Acc Nu"
-                                    android:textColor="#000" />
+                                    android:textColor="#000"
+                                    android:gravity="center_horizontal" />
 
                                 <TextView
                                     android:id="@+id/nextPayment"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="2"
+                                    android:layout_weight="0.5"
                                     android:fontFamily="serif"
                                     android:text="Payment"
-                                    android:textColor="#000" />
+                                    android:textColor="#000"
+                                    android:gravity="center_horizontal" />
 
                                 <TextView
                                     android:id="@+id/nextPaymentDate"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="2"
+                                    android:layout_weight="0.1"
                                     android:fontFamily="serif"
-                                    android:text="Next Payment Date"
-                                    android:textColor="#000" />
+                                    android:text="Next Pymt Date"
+                                    android:textColor="#000"
+                                    android:gravity="center_horizontal" />
 
                                 <TextView
                                     android:id="@+id/options"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1.2"
+                                    android:layout_weight="0.1"
                                     android:fontFamily="serif"
                                     android:text="Option"
-                                    android:textColor="#000" />
+                                    android:textColor="#000"
+                                    android:gravity="center_horizontal" />
 
                             </TableRow>
 

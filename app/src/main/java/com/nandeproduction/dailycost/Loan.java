@@ -10,6 +10,7 @@ public class Loan {
     private double monthlyPayment; // 31,000
     private double interestRate; // 9.75
     private String openDate;
+    private String nextPaymentDate;
     private int numberOfMonth;
     private List<LoanPeriod> loanPeriod;
     private int numberOfPaidMonths;
@@ -83,6 +84,11 @@ public class Loan {
 
     public void setOpenDate(String openDate) {
         this.openDate = openDate;
+        this.nextPaymentDate = DateConverter.nextPaymentDate(openDate);
+    }
+
+    public String getNextPaymentDate(){
+        return nextPaymentDate;
     }
 
     public int getNumberOfMonth() {
