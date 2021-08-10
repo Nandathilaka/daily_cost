@@ -57,7 +57,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
     public static ListView listView;
     int itemID = 0;
     public static LoanListviewAdapter adapter = null;
-    private static DecimalFormat df = new DecimalFormat("#.##");
+    //private static DecimalFormat df = new DecimalFormat("#.##");
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

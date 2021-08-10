@@ -5,7 +5,10 @@ import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,12 +16,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.nandeproduction.dailycost.DateConverter;
+import com.nandeproduction.dailycost.Loan;
+import com.nandeproduction.dailycost.LoanListviewAdapter;
+import com.nandeproduction.dailycost.LoanOverviewListviewAdapter;
 import com.nandeproduction.dailycost.R;
 import com.nandeproduction.dailycost.db.DBHelper;
 
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class OverviewFragment extends Fragment {
@@ -33,6 +41,11 @@ public class OverviewFragment extends Fragment {
     TextView lblNumberOfLoans;
     TextView txtTime;
     DBHelper DB;
+
+    public static ArrayList<Loan> loanList;
+    public static ListView listView;
+    int itemID = 0;
+    public static LoanOverviewListviewAdapter adapter = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +84,39 @@ public class OverviewFragment extends Fragment {
         lblNumberOfLoans = root.findViewById(R.id.lblNumberOfLoans);
         int numberofLoans = DB.numberOfActiveLoansRows();
         lblNumberOfLoans.setText("Loans("+numberofLoans+")");
+
+        //Click item in the list Start
+        loanList = new ArrayList<Loan>();
+        listView = (ListView) root.findViewById(R.id.listView);
+        getAllLoan();
+        adapter = new LoanOverviewListviewAdapter(getActivity(), loanList);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Loan selecteedLoan = loanList.get(position);
+                itemID = selecteedLoan.getId();
+                //String incomeId = ((TextView)view.findViewById(R.id.id)).getText().toString();
+                String accountNumber = ((TextView)view.findViewById(R.id.accNumber)).getText().toString();
+                String payment = ((TextView)view.findViewById(R.id.payment)).getText().toString();
+                String nextPaymentDate = ((TextView)view.findViewById(R.id.nextPaymentDate)).getText().toString();
+
+                Toast.makeText(getContext(),
+                        "Account : " + accountNumber +"\n"
+                                +"Payment : " +payment +"\n"
+                                +"Next Payment Date : " +nextPaymentDate, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        //Click item in the list End
+
         DB.close();
         return root;
+    }
+
+    private void getAllLoan(){
+        loanList = DB.getAllLoans();
     }
 }

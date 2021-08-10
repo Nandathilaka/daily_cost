@@ -361,39 +361,50 @@
                                 android:fontFamily="serif"
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
-                                android:layout_weight="1"
+                                android:layout_weight="0.5"
                                 android:textColor="#000"
-                                android:text="Account"/>
+                                android:text="Account Nu"
+                                android:gravity="center_horizontal"/>
                             <TextView
                                 android:id="@+id/age"
                                 android:textColor="#000"
                                 android:fontFamily="serif"
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
-                                android:layout_weight="1"
-                                android:text="Acc Name"/>
+                                android:layout_weight="1.5"
+                                android:text="Account Name"
+                                android:gravity="center_horizontal"/>
                             <TextView
                                 android:textColor="#000"
                                 android:id="@+id/position"
                                 android:fontFamily="serif"
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
-                                android:layout_weight="1"
-                                android:text="Current Balance"/>
+                                android:layout_weight="1.5"
+                                android:text="Next Payment"
+                                android:gravity="center_horizontal"/>
                             <TextView
                                 android:textColor="#000"
                                 android:id="@+id/address"
                                 android:fontFamily="serif"
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
-                                android:layout_weight="1"
-                                android:text="Next Payment"/>
+                                android:layout_weight="2"
+                                android:text="Next Paymentt Date"
+                                android:gravity="center_horizontal"/>
 
                         </TableRow>
                         <View
                             android:layout_height="3dip"
                             android:layout_width="match_parent"
                             android:background="#ff0000"/>
+                        <ListView
+                            android:id="@+id/listView"
+                            android:layout_width="match_parent"
+                            android:layout_height="135dp"
+                            android:background="#ffffff"
+                            android:layout_weight="1"
+                            android:focusable="true"/>
                     </TableLayout>
 
                 </LinearLayout>
