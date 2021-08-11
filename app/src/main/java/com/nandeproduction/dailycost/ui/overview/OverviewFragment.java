@@ -1,11 +1,13 @@
 package com.nandeproduction.dailycost.ui.overview;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,15 +15,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.nandeproduction.dailycost.AppLoading;
 import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.Loan;
 import com.nandeproduction.dailycost.LoanListviewAdapter;
 import com.nandeproduction.dailycost.LoanOverviewListviewAdapter;
+import com.nandeproduction.dailycost.MainActivity;
 import com.nandeproduction.dailycost.R;
 import com.nandeproduction.dailycost.db.DBHelper;
+import com.nandeproduction.dailycost.ui.income.IncomeFragment;
 
 import org.w3c.dom.Text;
 
@@ -41,6 +49,7 @@ public class OverviewFragment extends Fragment {
     TextView lblNumberOfLoans;
     TextView txtTime;
     DBHelper DB;
+    Button btnIncome,btnCost,btnLoan;
 
     public static ArrayList<Loan> loanList;
     public static ListView listView;
@@ -111,6 +120,32 @@ public class OverviewFragment extends Fragment {
             }
         });
         //Click item in the list End
+        btnIncome = (Button) root.findViewById(R.id.btnIncome);
+        btnCost = (Button) root.findViewById(R.id.btnCost);
+        btnLoan = (Button) root.findViewById(R.id.btnLoan);
+
+        btnIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnCost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnLoan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //Tab Income, Cost and Loan
+
 
         DB.close();
         return root;

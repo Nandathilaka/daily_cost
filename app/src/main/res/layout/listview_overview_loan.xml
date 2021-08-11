@@ -19,7 +19,7 @@
         android:id = "@+id/accName"
         android:layout_width = "0dp"
         android:layout_height = "match_parent"
-        android:layout_weight = "1.5"
+        android:layout_weight = "1.7"
         android:background = "@drawable/cell_shape"
         android:ellipsize = "end"
         android:padding = "5dp"

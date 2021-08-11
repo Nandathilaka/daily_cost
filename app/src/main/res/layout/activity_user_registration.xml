@@ -86,7 +86,7 @@
                     android:textColor="#FF0000"
                     android:textSize="20sp"
                     android:fontFamily="serif"
-                    android:text="Daily Income"
+                    android:text=""
                     android:gravity="center"/>
 
 
