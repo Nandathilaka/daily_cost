@@ -7,16 +7,22 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.nandeproduction.dailycost.Cost;
 import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.Income;
+import com.nandeproduction.dailycost.IncomeChartModel;
 import com.nandeproduction.dailycost.IncomeListviewAdapter;
 import com.nandeproduction.dailycost.Loan;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -505,6 +511,51 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         db.close();
         return array_list;
+    }
+
+    //Get all current month income data list
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ArrayList<IncomeChartModel> getAllCurrentMonthIncomesOrderByDateASE() {
+        ArrayList<Income> array_list = new ArrayList<Income>();
+        ArrayList<IncomeChartModel> chartModelList = new ArrayList<IncomeChartModel>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from incomes"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted = 0 ORDER BY date ASC", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            Income income = new Income();
+            income.setId(res.getInt(res.getColumnIndex(INCOMES_COLUMN_ID)));
+            income.setTitle(res.getString(res.getColumnIndex(INCOMES_COLUMN_TITLE)));
+            income.setAmount(res.getLong(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
+            income.setDate(res.getString(res.getColumnIndex(INCOMES_COLUMN_DATE)));
+            array_list.add(income);
+            res.moveToNext();
+        }
+        db.close();
+        if(array_list.size() > 0){
+            int firstDate = DateConverter.getOnlyDate(array_list.get(0).getDate());
+            int lastDate = DateConverter.getOnlyDate(array_list.get(array_list.size()-1).getDate());
+            for (int i=0; i <= lastDate;i++){
+                IncomeChartModel incomeChartModel = new IncomeChartModel();
+                incomeChartModel.setId(i);
+                if(i==0){
+                    incomeChartModel.setAmmount(0);
+                }else {
+                    //incomeChartModel.setAmmount(ThreadLocalRandom.current().nextFloat());
+
+                    for (Income income: array_list) {
+                        if(DateConverter.getOnlyDate(income.getDate()) == i){
+                            incomeChartModel.setAmmount(income.getAmount());
+                        }
+                    }
+                }
+                chartModelList.add(incomeChartModel);
+            }
+        }
+
+        return chartModelList;
     }
 
     //Get all cost data list

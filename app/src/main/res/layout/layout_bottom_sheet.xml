@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetContainer"
+    android:background="@drawable/bottom_sheet_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Loan Details"
+        android:textColor="@color/colorPrimarytext"
+        android:textSize="18sp"
+        android:textStyle="bold"></TextView>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorDivider"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bank_png"
+            app:riv_corner_radius="10dp"
+            ></com.makeramen.roundedimageview.RoundedImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bank"
+            android:textColor="@color/colorPrimarytext"
+            android:textSize="15sp"
+            android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Account Num"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next Payment"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next Pymnt Date"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Currency"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+
+
+            <TextView
+                android:id="@+id/bankName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Commercial Bank"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="15sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/accountNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1010101010101010"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+            <TextView
+                android:id="@+id/nextPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="31200.00"
+                android:textColor="@color/design_default_color_error"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:id="@+id/nextPaymentDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2021-09-27"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:id="@+id/currency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LRK"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorDivider"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Loan Amount"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="15sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Paid"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rest of Paymeny"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="rate cost"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Final Completed Payment"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/totalLoanAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1500000.00"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="15sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/totalPaidAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="255000.00"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+            <TextView
+                android:id="@+id/totalRestAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1345000.00"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:id="@+id/rateAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="45000.00"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:id="@+id/fullyPaymentAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1900000.00"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorDivider"></View>
+
+    <ListView
+        android:id="@+id/bottomLoanListView"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:background="#ffffff"
+        android:layout_weight="1"
+        android:focusable="true"/>
+
+</LinearLayout>

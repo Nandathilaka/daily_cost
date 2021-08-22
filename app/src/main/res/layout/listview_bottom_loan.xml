@@ -1,0 +1,55 @@
+<LinearLayout android:id="@+id/relativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_shadow_start_color"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id = "@+id/id"
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:layout_weight = "1.5"
+        android:background = "@drawable/cell_shape"
+        android:ellipsize = "end"
+        android:padding = "5dp"
+        android:text = "Account Number"
+        android:singleLine = "true" />
+
+    <TextView
+        android:id = "@+id/payment"
+        android:layout_width = "0dp"
+        android:layout_height = "match_parent"
+        android:layout_weight = "1.7"
+        android:background = "@drawable/cell_shape"
+        android:ellipsize = "end"
+        android:padding = "5dp"
+        android:text = "Account Name"
+        android:singleLine = "true" />
+
+    <Button
+        android:id="@+id/paid"
+        android:layout_weight = "0.1"
+        android:layout_gravity="center"
+        android:fontFamily="serif"
+        android:padding = "5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:text="Pay"
+        />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_weight = "0.1"
+        android:layout_gravity="center"
+        android:fontFamily="serif"
+        android:padding = "5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:background="@drawable/delete"
+        />
+
+</LinearLayout>

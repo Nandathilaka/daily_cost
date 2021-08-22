@@ -91,4 +91,20 @@ public class DateConverter {
         }
         return nextPaymentDate;
     }
+
+    public static int getOnlyDate(String date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date selectedDate = null;
+        int loanDate = 0;
+        try {
+            selectedDate = sdf.parse(date);
+            Calendar calendar = Calendar.getInstance();
+            //Loan date details
+            calendar.setTime(selectedDate);
+            loanDate = calendar.get(Calendar.DATE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return loanDate;
+    }
 }
