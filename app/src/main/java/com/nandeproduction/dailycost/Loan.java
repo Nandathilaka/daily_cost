@@ -132,9 +132,3 @@ public class Loan {
     }
 
 }
-
-class LoanPeriod{
-    private int premiumId; // Number of period (Premium)
-    private float monthlyPayment; // monthly payment
-    private Boolean paidOrNot=false; // paid or not. this is boolean. True mean paid, False mean not paid for the specific month
-}

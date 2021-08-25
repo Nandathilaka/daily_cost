@@ -13,11 +13,11 @@ import com.nandeproduction.dailycost.db.DBHelper;
 import java.util.ArrayList;
 
 public class BottomLoanListviewAdapter extends BaseAdapter {
-    public ArrayList<Loan> loanList;
+    public ArrayList<LoanPeriod> loanList;
     Activity activity;
     DBHelper DB;
 
-    public BottomLoanListviewAdapter(Activity activity, ArrayList<Loan> itemList) {
+    public BottomLoanListviewAdapter(Activity activity, ArrayList<LoanPeriod> itemList) {
         super();
         this.activity = activity;
         this.loanList = itemList;
@@ -66,9 +66,10 @@ public class BottomLoanListviewAdapter extends BaseAdapter {
             holder = (BottomLoanListviewAdapter.ViewHolder) convertView.getTag();
         }
 
-        Loan item = loanList.get(position);
-        holder.id.setText(item.getAccountNumber());
-        //holder.payment.setText((int) item.getMonthlyPayment());
+        LoanPeriod item = loanList.get(position);
+        holder.id.setText(String.valueOf(item.getLoan_installment_id()));
+        holder.payment.setText(String.valueOf((int) item.getLoan_installment()));
+        holder.paid.setText(item.getStatus());
 
         return convertView;
     }

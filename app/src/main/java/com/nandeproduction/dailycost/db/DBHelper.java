@@ -17,6 +17,7 @@ import com.nandeproduction.dailycost.Income;
 import com.nandeproduction.dailycost.IncomeChartModel;
 import com.nandeproduction.dailycost.IncomeListviewAdapter;
 import com.nandeproduction.dailycost.Loan;
+import com.nandeproduction.dailycost.LoanPeriod;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,6 +76,18 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String LOANS_COLUMN_MONTHS = "months";
     public static final String LOANS_COLUMN_NUMBER_OF_PAID_MONTHS = "number_of_paid_months";
 
+    //LoanPayment Table
+    public static final String LOAN_INSTALLMENT = "loan_installment";
+    public static final String LOAN_INSTALLMENT_COLUMN_ID = "id"; //1,2,3,.... Primary Key
+    public static final String LOAN_INSTALLMENT_COLUMN_LOAN_ID = "loan_account_number"; //80088000066, Foreign Key
+    public static final String LOAN_INSTALLMENT_COLUMN_INSTALLMENT_ID = "loan_installment_id"; // 1,2,3,4,5,...,60 for the 5 years Foreign Key
+    public static final String LOAN_INSTALLMENT_COLUMN_INSTALLMENT = "loan_installment"; // 23000 /-
+    public static final String LOAN_INSTALLMENT_COLUMN_USER_ID = "user_id"; // Foreign Key
+    public static final String LOAN_INSTALLMENT_COLUMN_STATUS = "status"; // YES or NO
+    public static final String LOAN_INSTALLMENT_COLUMN_CREATE_DATE = "date_created";
+    public static final String LOAN_INSTALLMENT_COLUMN_UPDATE_DATE = "date_updated";
+
+
 
     private HashMap hp;
 
@@ -111,7 +124,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // Create Loan Table
         db.execSQL(
                 "create table loans " +
-                        "(id integer primary key , user_id interger , account_name text, account_number text, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger , account_name text, account_number text UNIQUE, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
+        );
+
+        //create Loan Installment Table
+        db.execSQL(
+                "create table loan_installment " +
+                        "(id integer primary key, loan_account_number text,  loan_installment_id integer, loan_installment integer, user_id integer, status text default 'NOT PAID', date_created text, date_updated text, foreign key (loan_account_number) references loans (account_number), foreign key (user_id) references users (user_id));"
         );
     }
 
@@ -219,6 +238,33 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("date_created", DateConverter.DateConvert(new Date()));
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
         long result = db.insert("loans", null, contentValues);
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            boolean installment_all_success = true;
+            for(int install=1 ; install<=months ; install++){
+                installment_all_success = insertLoanInstallment(install, user_id,account_number,monthly_payment);
+                if(!installment_all_success){
+                    break;
+                }
+            }
+            return installment_all_success;
+        }
+    }
+
+    //Insert Personal Loan details
+    public boolean insertLoanInstallment (int installment_id, int user_id, String account_number, double monthly_payment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("loan_account_number", account_number);
+        contentValues.put("loan_installment_id", installment_id);
+        contentValues.put("loan_installment", monthly_payment);
+        contentValues.put("user_id", user_id);
+        contentValues.put("status", "NOT PAID");
+        contentValues.put("date_created", DateConverter.DateConvert(new Date()));
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.insert("loan_installment", null, contentValues);
         db.close();
         if(result == -1){
             return false;
@@ -372,6 +418,36 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("number_of_paid_months",number_of_paid_months);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
         long result = db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //Update loan installment table data given by the installment_id and loan account number
+    public boolean updateLoanInstallment (Integer loan_installment_id, String installment, String account_number, Integer user_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("loan_installment", installment);
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.update("loan_installment", contentValues, "loan_installment_id = ? AND user_id = ? AND loan_account_number = ?", new String[] { Integer.toString(loan_installment_id), Integer.toString(user_id), account_number} );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //Update loan installment table data given by the installment_id and loan account number
+    public boolean payInstallment (Integer loan_installment_id, String account_number, Integer user_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("status", "PAID");
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.update("loan_installment", contentValues, "loan_installment_id = ? AND user_id = ? AND loan_account_number = ?", new String[] { Integer.toString(loan_installment_id), Integer.toString(user_id), account_number} );
         db.close();
         if(result == -1){
             return false;
@@ -618,6 +694,29 @@ public class DBHelper extends SQLiteOpenHelper {
             loan.setNumberOfMonth(Integer.parseInt(res.getString(res.getColumnIndex("months"))));
             loan.setNumberOfPaidMonths(Integer.parseInt(res.getString(res.getColumnIndex("number_of_paid_months"))));
             array_list.add(loan);
+            res.moveToNext();
+        }
+        db.close();
+        return array_list;
+    }
+
+    //Get all loans
+    public ArrayList<LoanPeriod> getAllLoanInstallment(String account_number, int user_id ) {
+        ArrayList<LoanPeriod> array_list = new ArrayList<LoanPeriod>();
+        Loan loan ;
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from loan_installment WHERE loan_account_number = "+ account_number + " AND user_id = "+user_id, null );
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            LoanPeriod loanPeriod= new LoanPeriod();
+            loanPeriod.setId(Integer.parseInt(res.getString(res.getColumnIndex("id"))));
+            loanPeriod.setLoan_account_number(res.getString(res.getColumnIndex("loan_account_number")));
+            loanPeriod.setLoan_installment_id(Integer.parseInt(res.getString(res.getColumnIndex("loan_installment_id"))));
+            loanPeriod.setLoan_installment(Double.parseDouble(res.getString(res.getColumnIndex("loan_installment"))));
+            loanPeriod.setUser_id(Integer.parseInt(res.getString(res.getColumnIndex("user_id"))));
+            loanPeriod.setStatus(res.getString(res.getColumnIndex("status")));
+            array_list.add(loanPeriod);
             res.moveToNext();
         }
         db.close();

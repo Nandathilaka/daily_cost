@@ -157,9 +157,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Total Loan Amount"
-                android:textColor="@color/colorPrimarytext"
-                android:textSize="15sp"
-                android:textStyle="bold"></TextView>
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15sp"></TextView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -201,9 +200,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1500000.00"
-                android:textColor="@color/colorPrimarytext"
+                android:textColor="@color/colorSecondaryText"
                 android:textSize="15sp"
-                android:textStyle="bold"></TextView>
+                android:gravity="right"></TextView>
 
             <TextView
                 android:id="@+id/totalPaidAmount"
@@ -211,7 +210,8 @@
                 android:layout_height="wrap_content"
                 android:text="255000.00"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="15dp"></TextView>
+                android:textSize="15dp"
+                android:gravity="right"></TextView>
 
             <TextView
                 android:id="@+id/totalRestAmount"
@@ -219,21 +219,24 @@
                 android:layout_height="wrap_content"
                 android:text="1345000.00"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="15dp"></TextView>
+                android:textSize="15dp"
+                android:gravity="right"></TextView>
             <TextView
                 android:id="@+id/rateAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="45000.00"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="15dp"></TextView>
+                android:textSize="15dp"
+                android:gravity="right"></TextView>
             <TextView
                 android:id="@+id/fullyPaymentAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1900000.00"
                 android:textColor="@color/colorSecondaryText"
-                android:textSize="15dp"></TextView>
+                android:textSize="15dp"
+                android:gravity="right"></TextView>
 
         </LinearLayout>
     </LinearLayout>

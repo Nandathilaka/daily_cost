@@ -44,6 +44,7 @@ import com.nandeproduction.dailycost.IncomeChartModel;
 import com.nandeproduction.dailycost.Loan;
 import com.nandeproduction.dailycost.LoanListviewAdapter;
 import com.nandeproduction.dailycost.LoanOverviewListviewAdapter;
+import com.nandeproduction.dailycost.LoanPeriod;
 import com.nandeproduction.dailycost.MainActivity;
 import com.nandeproduction.dailycost.R;
 import com.nandeproduction.dailycost.db.DBHelper;
@@ -77,6 +78,7 @@ public class OverviewFragment extends Fragment {
     Fragment fragment = null;
 
     public static ArrayList<Loan> loanList;
+    public static ArrayList<LoanPeriod> loanInstallmentList;
     public static ArrayList<IncomeChartModel> incomeList;
     public static ListView listView;
     int itemID = 0;
@@ -89,7 +91,8 @@ public class OverviewFragment extends Fragment {
     //Bottom Details
     public static ListView bottomListView;
     public static BottomLoanListviewAdapter adapterBottom = null;
-
+    //Get Current User ID
+    private int userID = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -104,6 +107,7 @@ public class OverviewFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         txtTime = root.findViewById(R.id.txtTime);
         Date today=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
@@ -170,8 +174,9 @@ public class OverviewFragment extends Fragment {
                 );
 
                 //
+                getAllLoanInstalments(accountNumber);
                 bottomListView =   bottomSheetView.findViewById(R.id.bottomLoanListView);
-                adapterBottom = new BottomLoanListviewAdapter(getActivity(), loanList);
+                adapterBottom = new BottomLoanListviewAdapter(getActivity(), loanInstallmentList);
                 bottomListView.setAdapter(adapterBottom);
                 adapterBottom.notifyDataSetChanged();
                 //
@@ -246,6 +251,11 @@ public class OverviewFragment extends Fragment {
 
     private void getAllLoan(){
         loanList = DB.getAllLoans();
+    }
+
+    private void getAllLoanInstalments(String account_nu){
+        userID = DB.getCurrentUserID();
+        loanInstallmentList = DB.getAllLoanInstallment(account_nu,userID);
     }
 
     public void replaceFragment(Fragment someFragment) {
