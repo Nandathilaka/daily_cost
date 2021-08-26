@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "421738309401",
+    "project_id": "daily-cost-6f2a8",
+    "storage_bucket": "daily-cost-6f2a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421738309401:android:146e677ecbe892d50e0788",
+        "android_client_info": {
+          "package_name": "com.nandeproduction.dailycost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "421738309401-gi54oj4u5u6eta6q37j75r3nn769jla7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2bGOxy74yoHJ_6FHyTcbhoma-iIvV2Ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "421738309401-gi54oj4u5u6eta6q37j75r3nn769jla7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

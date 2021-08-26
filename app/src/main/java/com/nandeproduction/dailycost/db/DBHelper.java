@@ -613,6 +613,9 @@ public class DBHelper extends SQLiteOpenHelper {
         if(array_list.size() > 0){
             int firstDate = DateConverter.getOnlyDate(array_list.get(0).getDate());
             int lastDate = DateConverter.getOnlyDate(array_list.get(array_list.size()-1).getDate());
+            int todayDate = DateConverter.getOnlyDate(DateConverter.DateConvert(new Date()));
+            if(lastDate < todayDate)
+                lastDate = todayDate;
             for (int i=0; i <= lastDate;i++){
                 IncomeChartModel incomeChartModel = new IncomeChartModel();
                 incomeChartModel.setId(i);

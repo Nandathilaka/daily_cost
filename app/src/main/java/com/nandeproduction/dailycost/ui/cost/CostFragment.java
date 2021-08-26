@@ -24,6 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.analytics.Tracker;
+import com.nandeproduction.dailycost.AnalyticsApplication;
 import com.nandeproduction.dailycost.Cost;
 import com.nandeproduction.dailycost.CostListviewAdapter;
 import com.nandeproduction.dailycost.DateConverter;
@@ -50,6 +52,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
     public static ArrayList<Cost> costList;
     int itemID = 0;
     public static CostListviewAdapter adapter = null;
+    private Tracker mTracker;//Google Analytics
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +66,12 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
                 textView.setText(s);
             }
         });
+
+        //Google Analytics Start
+        // Obtain the shared Tracker instance.
+        //AnalyticsApplication application = (AnalyticsApplication) getContext();
+        //mTracker = application.getDefaultTracker();
+        //Google Analytics End
 
         //Date Start
         txtCostDate=(EditText) root.findViewById(R.id.txtCostDate);

@@ -13,6 +13,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     compileOptions {
@@ -66,6 +67,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'androidx.work:work-runtime:2.5.0'
+
+    implementation 'com.google.android.gms:play-services-analytics:17.0.1' // google analytics
 
 
 }
