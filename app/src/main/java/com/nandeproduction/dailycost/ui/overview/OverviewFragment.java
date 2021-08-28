@@ -118,11 +118,14 @@ public class OverviewFragment extends Fragment {
         DB = new DBHelper(getContext());
         lblIncomeThisMonth = root.findViewById(R.id.lblIncomeThisMonth);
         lblCostThisMonth = root.findViewById(R.id.lblCostThisMonth);
-        long currentMonthIncome = DB.CurrentMonthIncome();
-        long currentMonthCost = DB.CurrentMonthCost();
-        lblIncomeThisMonth.setText(Long.toString(currentMonthIncome));
-        lblCostThisMonth.setText(Long.toString(currentMonthCost));
-        lblAssetThisMonth.setText(Long.toString(currentMonthIncome-currentMonthCost));
+        double currentMonthIncome = DB.CurrentMonthIncome();
+        double currentMonthCost = DB.CurrentMonthCost();
+        //lblIncomeThisMonth.setText(Long.toString(currentMonthIncome));String.format("%.2f",
+        lblIncomeThisMonth.setText((String.format("%.2f",currentMonthIncome)));
+        //lblCostThisMonth.setText(Long.toString(currentMonthCost));
+        lblCostThisMonth.setText((String.format("%.2f",currentMonthCost)));
+        //lblAssetThisMonth.setText(Long.toString(currentMonthIncome-currentMonthCost));
+        lblAssetThisMonth.setText((String.format("%.2f",currentMonthIncome-currentMonthCost)));
         lblIncomeThisYear = root.findViewById(R.id.lblIncomeThisYear);
         lblCostThisYear = root.findViewById(R.id.lblCostThisYear);
         long currentYearIncome = DB.CurrentYearIncome();
@@ -183,6 +186,8 @@ public class OverviewFragment extends Fragment {
 
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
+
+
 
 
 

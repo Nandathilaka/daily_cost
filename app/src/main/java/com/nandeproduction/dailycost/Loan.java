@@ -44,8 +44,8 @@ public class Loan {
             this.accountName = "No Account Name";
         }
     }
-    public long getLoanAmount(){
-        return loanAmount;
+    public String getLoanAmount(){
+        return String.format("%.2f", loanAmount);
     }
     public void setLoanAmount(long loanAmount){
         if(loanAmount != 0 && loanAmount > 0){
@@ -54,8 +54,8 @@ public class Loan {
             this.loanAmount = 0;
         }
     }
-    public double getMonthlyPayment(){
-        return monthlyPayment;
+    public String getMonthlyPayment(){
+        return String.format("%.2f", monthlyPayment);
     }
     public void setMonthlyPayment(String monthlyPayment){
         if(monthlyPayment != "" && monthlyPayment.length() > 0){
@@ -64,8 +64,8 @@ public class Loan {
             this.monthlyPayment = 0.00;
         }
     }
-    public double getInterestRate(){
-        return interestRate;
+    public String getInterestRate(){
+        return String.format("%.2f", interestRate);
     }
     public void setInterestRate(String interestRate){
         if (interestRate != "" && interestRate.length() > 0) {

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     channelName, NotificationManager.IMPORTANCE_LOW));
         }
 
-        //Firebase Token Start
+        //Firebase Cloud Messaging Token Start
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         //Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-        //Firebase Token End
+        //Firebase  Cloud Messaging  Token End
 
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.default_notification_channel_name))
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

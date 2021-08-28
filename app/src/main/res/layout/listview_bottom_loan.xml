@@ -39,6 +39,7 @@
         android:text="Pay"
         />
 
+    <!--Commented
     <Button
         android:id="@+id/delete"
         android:layout_weight = "0.1"
@@ -51,5 +52,6 @@
         android:visibility="visible"
         android:background="@drawable/delete"
         />
+        -->
 
 </LinearLayout>

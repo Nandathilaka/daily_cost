@@ -124,13 +124,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // Create Loan Table
         db.execSQL(
                 "create table loans " +
-                        "(id integer primary key , user_id interger , account_name text, account_number text UNIQUE, loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger , account_name text, account_number text , loan_amount interger, monthly_payment interger,rate text, open_date text,months interger, number_of_paid_months interger, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
         );
 
         //create Loan Installment Table
         db.execSQL(
                 "create table loan_installment " +
-                        "(id integer primary key, loan_account_number text,  loan_installment_id integer, loan_installment integer, user_id integer, status text default 'NOT PAID', date_created text, date_updated text, foreign key (loan_account_number) references loans (account_number), foreign key (user_id) references users (user_id));"
+                        "(id integer primary key, loan_account_number text, loan_installment_id integer, loan_installment integer, user_id integer, status text default 'NOT PAID', date_created text, date_updated text, deleted integer default 0, foreign key (loan_account_number) references loans (account_number), foreign key (user_id) references users (user_id));"
         );
     }
 
@@ -277,8 +277,16 @@ public class DBHelper extends SQLiteOpenHelper {
     //Get All Contact details
     public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id+"", null );
+        Cursor res =  db.rawQuery( "select * from contacts where loan_account_number="+id+" and deleted = 0", null );
         db.close();
+        return res;
+    }
+
+    //Get All Contact details
+    public Cursor getLoanData(int lona_account_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from loans where id="+lona_account_id+" and deleted = 0", null );
+        //db.close();
         return res;
     }
 
@@ -447,7 +455,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("status", "PAID");
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        long result = db.update("loan_installment", contentValues, "loan_installment_id = ? AND user_id = ? AND loan_account_number = ?", new String[] { Integer.toString(loan_installment_id), Integer.toString(user_id), account_number} );
+        long result = db.update("loan_installment", contentValues, "loan_installment_id = ? AND user_id = ? AND loan_account_number = ? AND deleted = 0", new String[] { Integer.toString(loan_installment_id), Integer.toString(user_id), account_number} );
         db.close();
         if(result == -1){
             return false;
@@ -512,15 +520,44 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //Hide loans table data given by the ID, To do that update the "deleted" column as 1 (1 mean deleted raw item/ 0 mean non-deleted raw item)
     public boolean hideLoan (Integer id, Integer user_id) {
+        //Get Loan Account Number
+        Loan loan = new Loan();
+        Cursor res =  getLoanData(id);
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            loan.setAccountNumber(res.getString(res.getColumnIndex("account_number")));
+            res.moveToNext();
+        }
+        if(hideLoanInstallments(loan.getAccountNumber(),user_id)){
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("deleted", 1);
+            contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+            long result = db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+            db.close();
+            if(result == -1){
+                return false;
+            }else{
+
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    //Hide loan installments related loan when deleted the loan
+    public boolean hideLoanInstallments(String loan_account_number, int user_id){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("deleted", 1);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
-        long result = db.update("loans", contentValues, "id = ? AND user_id = ? ", new String[] { Integer.toString(id), Integer.toString(user_id) } );
+        long result = db.update("loan_installment", contentValues, "loan_account_number = ? AND user_id = ? and deleted = 0", new String[] { loan_account_number, Integer.toString(user_id) } );
         db.close();
         if(result == -1){
             return false;
         }else{
+
             return true;
         }
     }

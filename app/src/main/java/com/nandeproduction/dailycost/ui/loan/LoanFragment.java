@@ -107,16 +107,23 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 String accountNumber = ((TextView)view.findViewById(R.id.accNumber)).getText().toString();
                 String payment = ((TextView)view.findViewById(R.id.payment)).getText().toString();
                 String nextPaymentDate = ((TextView)view.findViewById(R.id.nextPaymentDate)).getText().toString();
+
                 txtLoanAccount.setText(accountNumber);
                 txtLoanMonthlyPayment.setText(payment);
                 txtLoanOpenDate.setText(DateConverter.setCalanderDate(selecteedLoan.getOpenDate()));
                 txtLoanAccount.setText(selecteedLoan.getAccountNumber());
                 txtLoanAccountName.setText(selecteedLoan.getAccountName());
-                txtLoanInterestRate.setText(Double.toString(selecteedLoan.getInterestRate()));
-                txtLoanMonths.setText(Integer.toString(selecteedLoan.getNumberOfMonth()));
-                txtLoanAmount.setText(Long.toString(selecteedLoan.getLoanAmount()));
+                //txtLoanInterestRate.setText(Double.toString(selecteedLoan.getInterestRate()));
+                txtLoanInterestRate.setText(selecteedLoan.getInterestRate());
+                //txtLoanMonths.setText(Integer.toString(selecteedLoan.getNumberOfMonth()));
+                txtLoanAmount.setText(selecteedLoan.getLoanAmount());
                 btnUpdate.setVisibility(View.VISIBLE);
                 btnClear.setVisibility(View.VISIBLE);
+
+                txtLoanAccount.setEnabled(false);
+                txtLoanAmount.setEnabled(false);
+                txtLoanMonthlyPayment.setEnabled(false);
+                txtLoanMonths.setEnabled(false);
 
                 Toast.makeText(getContext(),
                         "Account : " + accountNumber +"\n"
@@ -443,6 +450,10 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
         btnUpdate.setVisibility(View.INVISIBLE);
         btnClear.setVisibility(View.INVISIBLE);
         txtLoanAccount.requestFocus();
+        txtLoanAccount.setEnabled(true);
+        txtLoanAmount.setEnabled(true);
+        txtLoanMonthlyPayment.setEnabled(true);
+        txtLoanMonths.setEnabled(true);
         DB.close();
     }
 

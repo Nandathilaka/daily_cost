@@ -88,7 +88,8 @@ public class LoanListviewAdapter extends BaseAdapter {
 
         holder.accNumber.setText(item.getAccountNumber().toString());
         //holder.mId.setText(Integer.valueOf(item.getId()).toString());
-        holder.payment.setText(Double.valueOf(String.valueOf(item.getMonthlyPayment())).toString());
+        //holder.payment.setText(Double.valueOf(String.valueOf(item.getMonthlyPayment())).toString());
+        holder.payment.setText((String.valueOf(item.getMonthlyPayment())));
         holder.nextPaymentDate.setText(DateConverter.setCalanderDate(item.getNextPaymentDate().toString()));
 
 
