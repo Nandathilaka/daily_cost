@@ -50,7 +50,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bank"
+            android:text="Acc Name"
             android:textColor="@color/colorPrimarytext"
             android:textSize="15sp"
             android:textStyle="bold"></TextView>
@@ -71,9 +71,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Next Pymnt Date"
-                android:textColor="@color/colorSecondaryText"
+                android:text="Next Payment Date"
+                android:textColor="@color/design_default_color_error"
                 android:textSize="15dp"></TextView>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,7 +93,7 @@
 
 
             <TextView
-                android:id="@+id/bankName"
+                android:id="@+id/AccName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Commercial Bank"
@@ -104,7 +105,7 @@
                 android:id="@+id/accountNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1010101010101010"
+                android:text="0"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"></TextView>
 
@@ -112,21 +113,22 @@
                 android:id="@+id/nextPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="31200.00"
+                android:text="0.00"
                 android:textColor="@color/design_default_color_error"
                 android:textSize="15dp"></TextView>
             <TextView
                 android:id="@+id/nextPaymentDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2021-09-27"
-                android:textColor="@color/colorSecondaryText"
+                android:text="2000-01-01"
+                android:textColor="@color/design_default_color_error"
                 android:textSize="15dp"></TextView>
+
             <TextView
                 android:id="@+id/currency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="LRK"
+                android:text="LKR"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"></TextView>
 
@@ -156,7 +158,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Total Loan Amount"
+                android:text="Loan Amount"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15sp"></TextView>
 
@@ -170,19 +172,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rest of Paymeny"
+                android:text="Amount in Arrears"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"></TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="rate cost"
+                android:text="Interest Rate Cost"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"></TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Final Completed Payment"
+                android:text="To Be Final Payment"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Installments"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"></TextView>
 
@@ -199,7 +207,7 @@
                 android:id="@+id/totalLoanAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1500000.00"
+                android:text="0.00"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15sp"
                 android:gravity="right"></TextView>
@@ -208,7 +216,7 @@
                 android:id="@+id/totalPaidAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="255000.00"
+                android:text="0.00"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"
                 android:gravity="right"></TextView>
@@ -217,7 +225,7 @@
                 android:id="@+id/totalRestAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1345000.00"
+                android:text="0.00"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"
                 android:gravity="right"></TextView>
@@ -225,15 +233,23 @@
                 android:id="@+id/rateAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="45000.00"
+                android:text="0.00"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"
                 android:gravity="right"></TextView>
             <TextView
-                android:id="@+id/fullyPaymentAmount"
+                android:id="@+id/finalToBeComplatedPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1900000.00"
+                android:text="0.00"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="15dp"
+                android:gravity="right"></TextView>
+            <TextView
+                android:id="@+id/installments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="15dp"
                 android:gravity="right"></TextView>

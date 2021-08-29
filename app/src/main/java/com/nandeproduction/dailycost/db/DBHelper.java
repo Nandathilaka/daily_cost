@@ -733,11 +733,37 @@ public class DBHelper extends SQLiteOpenHelper {
             loan.setOpenDate(res.getString(res.getColumnIndexOrThrow("open_date")));
             loan.setNumberOfMonth(Integer.parseInt(res.getString(res.getColumnIndex("months"))));
             loan.setNumberOfPaidMonths(Integer.parseInt(res.getString(res.getColumnIndex("number_of_paid_months"))));
+            loan.setCurrentlyPaid(getCurrentLoanPaidAmount(loan.getAccountNumber()));
+            loan.setNumberOfPaidMonths(getNumberOfPaidMonths(loan.getAccountNumber()));
             array_list.add(loan);
             res.moveToNext();
         }
         db.close();
         return array_list;
+    }
+
+    public double getCurrentLoanPaidAmount(String accountNumber){
+        double x = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getamountdata = "SELECT SUM(loan_installment) AS totalPaied FROM "+ LOAN_INSTALLMENT + " WHERE loan_account_number = " + accountNumber + " AND status = 'PAID' AND deleted = 0";
+        Cursor c = db.rawQuery(getamountdata, null);
+        if(c.moveToFirst()){
+            x= c.getDouble(0);
+        }
+        db.close();
+        return x;
+    }
+
+    public int getNumberOfPaidMonths(String accountnumber){
+        int numOfInastallmentRows = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getamountdata = "SELECT count(*) FROM "+ LOAN_INSTALLMENT + " WHERE loan_account_number = "+ accountnumber +" AND status = 'PAID' AND deleted = 0";
+        Cursor c = db.rawQuery(getamountdata, null);
+        if(c.moveToFirst()){
+            numOfInastallmentRows = (int) c.getLong(0);
+        }
+        db.close();
+        return numOfInastallmentRows;
     }
 
     //Get all loans

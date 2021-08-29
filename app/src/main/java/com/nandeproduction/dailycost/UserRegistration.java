@@ -48,7 +48,7 @@ public class UserRegistration extends AppCompatActivity {
                 }
                 if(validation){
                     try {
-                    Boolean user = DB.insertUser(fname,lname,email,"Bulutota","Sri Lanka");
+                    Boolean user = DB.insertUser(fname,lname,email,"Street","Country");
                     if(user){
                         Intent mainIntent = new Intent(UserRegistration.this, MainActivity.class);
                         startActivity(mainIntent);

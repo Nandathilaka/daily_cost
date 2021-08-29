@@ -158,7 +158,7 @@ public class OverviewFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Loan selecteedLoan = loanList.get(position);
                 itemID = selecteedLoan.getId();
-                //String incomeId = ((TextView)view.findViewById(R.id.id)).getText().toString();
+                //String loanId = ((TextView)view.findViewById(R.id.id)).getText().toString();
                 String accountNumber = ((TextView)view.findViewById(R.id.accNumber)).getText().toString();
                 String payment = ((TextView)view.findViewById(R.id.payment)).getText().toString();
                 String nextPaymentDate = ((TextView)view.findViewById(R.id.nextPaymentDate)).getText().toString();
@@ -168,28 +168,52 @@ public class OverviewFragment extends Fragment {
                                 +"Payment : " +payment +"\n"
                                 +"Next Payment Date : " +nextPaymentDate, Toast.LENGTH_SHORT).show();
 
+                //Bottom Sheet View Start
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
                         getContext(), R.style.BottomSheetDialogTheme
                 );
-                View bottomSheetView  = LayoutInflater.from(getActivity()).inflate(
+                View bottomSheetView  = LayoutInflater.from(getContext()).inflate(
                         R.layout.layout_bottom_sheet,
                         (LinearLayout)root.findViewById(R.id.bottomSheetContainer)
                 );
 
-                //
+                //Set Loan Properties Start
+                TextView accountName = (TextView) bottomSheetView.findViewById(R.id.AccName);
+                accountName.setText(selecteedLoan.getAccountName());
+                TextView accountNum = bottomSheetView.findViewById(R.id.accountNumber);
+                accountNum.setText(selecteedLoan.getAccountNumber());
+                TextView nextPayment = bottomSheetView.findViewById(R.id.nextPayment);
+                nextPayment.setText(selecteedLoan.getMonthlyPayment());
+                TextView nextPaytDate = bottomSheetView.findViewById(R.id.nextPaymentDate);
+                nextPaytDate.setText(selecteedLoan.getNextPaymentDate());
+                TextView currency = bottomSheetView.findViewById(R.id.currency);
+                currency.setText("LKR");// Please update using this from DB - User table
+
+                TextView totalLoanAmount = bottomSheetView.findViewById(R.id.totalLoanAmount);
+                totalLoanAmount.setText(selecteedLoan.getLoanAmount());
+                TextView paid = bottomSheetView.findViewById(R.id.totalPaidAmount);
+                paid.setText(selecteedLoan.getCurrentlyPaid());
+                TextView amountInArrears = bottomSheetView.findViewById(R.id.totalRestAmount);
+                amountInArrears.setText(selecteedLoan.getAmountArreas());
+                TextView interestRateCost = bottomSheetView.findViewById(R.id.rateAmount);
+                interestRateCost.setText(selecteedLoan.getInterestAmount());
+                TextView finalToBeComplatedPayment = bottomSheetView.findViewById(R.id.finalToBeComplatedPayment);
+                finalToBeComplatedPayment.setText(selecteedLoan.getToBeCompletedTotalPaid());
+                TextView installments = bottomSheetView.findViewById(R.id.installments);
+                installments.setText(selecteedLoan.getNumberOfPaidMonths());
+                //Set Loan Properties End
+
+                //Set Loan Installment Plan Start
                 getAllLoanInstalments(accountNumber);
                 bottomListView =   bottomSheetView.findViewById(R.id.bottomLoanListView);
                 adapterBottom = new BottomLoanListviewAdapter(getActivity(), loanInstallmentList);
                 bottomListView.setAdapter(adapterBottom);
                 adapterBottom.notifyDataSetChanged();
-                //
+                //Set Loan Installment Plan End
 
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
-
-
-
-
+                //Bottom Sheet View End
 
             }
         });
