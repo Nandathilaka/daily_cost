@@ -138,7 +138,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onClick(View v) {
                 if(inputValidate()){
                     String title = String.valueOf(txtCostTitle.getText());
-                    long ammount = (long)Double.parseDouble(txtCostAmount.getText().toString());
+                    double ammount = Double.parseDouble(txtCostAmount.getText().toString());
                     String date = String.valueOf(txtCostDate.getText());
                     int currentUserID = DB.getCurrentUserID();
                     Boolean insertCost = DB.insertCost(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
@@ -161,7 +161,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onClick(View v) {
                 if(inputValidate()){
                     String updatedTitle = txtCostTitle.getText().toString();
-                    Long updatedAmount = Long.valueOf(txtCostAmount.getText().toString());
+                    double updatedAmount = Double.valueOf(txtCostAmount.getText().toString());
                     String updatedDate = txtCostDate.getText().toString();
                     Boolean update = DB.updateCost(itemID,updatedTitle,updatedAmount,DateConverter.DateConvertToString(updatedDate),userID);
                     DB.close();

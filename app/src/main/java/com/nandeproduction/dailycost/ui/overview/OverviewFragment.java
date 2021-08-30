@@ -38,6 +38,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.nandeproduction.dailycost.AppLoading;
 import com.nandeproduction.dailycost.BottomLoanListviewAdapter;
+import com.nandeproduction.dailycost.CostChartModel;
 import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.Income;
 import com.nandeproduction.dailycost.IncomeChartModel;
@@ -47,6 +48,7 @@ import com.nandeproduction.dailycost.LoanOverviewListviewAdapter;
 import com.nandeproduction.dailycost.LoanPeriod;
 import com.nandeproduction.dailycost.MainActivity;
 import com.nandeproduction.dailycost.R;
+import com.nandeproduction.dailycost.User;
 import com.nandeproduction.dailycost.db.DBHelper;
 import com.nandeproduction.dailycost.ui.cost.CostFragment;
 import com.nandeproduction.dailycost.ui.income.IncomeFragment;
@@ -70,22 +72,25 @@ public class OverviewFragment extends Fragment {
     TextView lblCostThisYear;
     TextView lblAssetThisYear;
     TextView lblNumberOfLoans;
+    TextView lblIncomeCurrency;
+    TextView lblCostCurrency;
     TextView txtTime;
     DBHelper DB;
     Button btnIncome,btnCost,btnLoan;
-    CardView cardViewChart;
+    CardView cardViewIncomeChart, cardViewCostChart;
 
     Fragment fragment = null;
 
     public static ArrayList<Loan> loanList;
     public static ArrayList<LoanPeriod> loanInstallmentList;
     public static ArrayList<IncomeChartModel> incomeList;
+    public static ArrayList<CostChartModel> costList;
     public static ListView listView;
     int itemID = 0;
     public static LoanOverviewListviewAdapter adapter = null;
 
     private static final String TAG = "OverviewFragment";
-    private LineChart lineChart;
+    private LineChart lineIncomeChart, lineCostChart;
     private Object Income;
 
     //Bottom Details
@@ -107,7 +112,14 @@ public class OverviewFragment extends Fragment {
                 textView.setText(s);
             }
         });
-
+        DB = new DBHelper(getContext());
+        User user = new User();
+        user = DB.getUserDetails();
+        final String currency = user.getCurrency();
+        lblIncomeCurrency = root.findViewById(R.id.lblIncomeCurrency);
+        lblIncomeCurrency.setText(user.getCurrency());
+        lblCostCurrency = root.findViewById(R.id.lblCostCurrency);
+        lblCostCurrency.setText(user.getCurrency());
         txtTime = root.findViewById(R.id.txtTime);
         Date today=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
@@ -115,12 +127,11 @@ public class OverviewFragment extends Fragment {
         txtTime.setText("Here's info as at "+ currentDateTimeString + ", Today. Pull to refresh");
         lblAssetThisMonth = root.findViewById(R.id.lblAssetThisMonth);
         lblAssetThisYear = root.findViewById(R.id.lblAssetThisYear);
-        DB = new DBHelper(getContext());
         lblIncomeThisMonth = root.findViewById(R.id.lblIncomeThisMonth);
         lblCostThisMonth = root.findViewById(R.id.lblCostThisMonth);
         double currentMonthIncome = DB.CurrentMonthIncome();
         double currentMonthCost = DB.CurrentMonthCost();
-        //lblIncomeThisMonth.setText(Long.toString(currentMonthIncome));String.format("%.2f",
+        //lblIncomeThisMonth.setText(Long.toString(currentMonthIncome));
         lblIncomeThisMonth.setText((String.format("%.2f",currentMonthIncome)));
         //lblCostThisMonth.setText(Long.toString(currentMonthCost));
         lblCostThisMonth.setText((String.format("%.2f",currentMonthCost)));
@@ -128,21 +139,27 @@ public class OverviewFragment extends Fragment {
         lblAssetThisMonth.setText((String.format("%.2f",currentMonthIncome-currentMonthCost)));
         lblIncomeThisYear = root.findViewById(R.id.lblIncomeThisYear);
         lblCostThisYear = root.findViewById(R.id.lblCostThisYear);
-        long currentYearIncome = DB.CurrentYearIncome();
-        long currentYearCost = DB.CurrentYearCost();
-        lblIncomeThisYear.setText(Long.toString(currentYearIncome));
-        lblCostThisYear.setText(Long.toString(currentYearCost));
-        lblAssetThisYear.setText(Long.toString(currentYearIncome-currentYearCost));
+        double currentYearIncome = DB.CurrentYearIncome();
+        double currentYearCost = DB.CurrentYearCost();
+        lblIncomeThisYear.setText((String.format("%.2f",currentYearIncome)));
+        lblCostThisYear.setText((String.format("%.2f",currentYearCost)));
+        lblAssetThisYear.setText((String.format("%.2f",currentYearIncome-currentYearCost)));
         lblNumberOfLoans = root.findViewById(R.id.lblNumberOfLoans);
         int numberofLoans = DB.numberOfActiveLoansRows();
         lblNumberOfLoans.setText("Loans("+numberofLoans+")");
-        cardViewChart = root.findViewById(R.id.cardViewChart);
+        cardViewIncomeChart = root.findViewById(R.id.cardViewIncomeChart);
         if(currentMonthIncome == 0){
-            cardViewChart.setVisibility(View.INVISIBLE);
+            cardViewIncomeChart.setVisibility(View.INVISIBLE);
         }else{
-            cardViewChart.setVisibility(View.VISIBLE);
+            cardViewIncomeChart.setVisibility(View.VISIBLE);
         }
-        cardViewChart.setVisibility(View.VISIBLE);
+        //cardViewIncomeChart.setVisibility(View.VISIBLE);
+        cardViewCostChart = root.findViewById(R.id.cardViewCostChart);
+        if(currentMonthCost == 0){
+            cardViewCostChart.setVisibility(View.INVISIBLE);
+        }else{
+            cardViewCostChart.setVisibility(View.VISIBLE);
+        }
 
         //Click item in the list Start
         loanList = new ArrayList<Loan>();
@@ -186,8 +203,8 @@ public class OverviewFragment extends Fragment {
                 nextPayment.setText(selecteedLoan.getMonthlyPayment());
                 TextView nextPaytDate = bottomSheetView.findViewById(R.id.nextPaymentDate);
                 nextPaytDate.setText(selecteedLoan.getNextPaymentDate());
-                TextView currency = bottomSheetView.findViewById(R.id.currency);
-                currency.setText("LKR");// Please update using this from DB - User table
+                TextView txtcurrency = bottomSheetView.findViewById(R.id.currency);
+                txtcurrency.setText(currency);// Please update using this from DB - User table
 
                 TextView totalLoanAmount = bottomSheetView.findViewById(R.id.totalLoanAmount);
                 totalLoanAmount.setText(selecteedLoan.getLoanAmount());
@@ -247,11 +264,10 @@ public class OverviewFragment extends Fragment {
         });
         //Tab Income, Cost and Loan
 
-        //LineChard Start
-        lineChart = (LineChart) root.findViewById(R.id.lineChar);
-
-        lineChart.setDragEnabled(true);
-        lineChart.setScaleEnabled(false);
+        //Line Income Chart Start
+        lineIncomeChart = (LineChart) root.findViewById(R.id.lineIncomeChart);
+        lineIncomeChart.setDragEnabled(true);
+        lineIncomeChart.setScaleEnabled(false);
 
         ArrayList<Entry> income= new ArrayList<>();
         incomeList = DB.getAllCurrentMonthIncomesOrderByDateASE();
@@ -260,19 +276,43 @@ public class OverviewFragment extends Fragment {
             income.add(new Entry(data.getId(), data.getAmmount()));
         }
 
-        LineDataSet set1 = new LineDataSet(income, "Income");
-        set1.setFillAlpha(110);
-        set1.setColor(Color.RED);
-        set1.setLineWidth(3f);
-        set1.setValueTextColor(Color.parseColor("#3090C7"));
-        set1.setValueTextSize(10f);
+        LineDataSet setIncome = new LineDataSet(income, "Income");
+        setIncome.setFillAlpha(110);
+        setIncome.setColor(R.color.design_default_color_primary_variant);
+        setIncome.setLineWidth(3f);
+        setIncome.setValueTextColor(Color.parseColor("#3090C7"));
+        setIncome.setValueTextSize(10f);
 
-        ArrayList<ILineDataSet> datasets1 = new ArrayList<>();
-        datasets1.add(set1);
-        LineData data1 = new LineData(datasets1);
-        lineChart.setData(data1);
+        ArrayList<ILineDataSet> datasetsIncome = new ArrayList<>();
+        datasetsIncome.add(setIncome);
+        LineData dataIncome = new LineData(datasetsIncome);
+        lineIncomeChart.setData(dataIncome);
+        //Line Income Chart End
 
-        //Line Chart End
+        //Line Cost Chart Start
+        lineCostChart = (LineChart) root.findViewById(R.id.lineCostChart);
+        lineCostChart.setDragEnabled(true);
+        lineCostChart.setScaleEnabled(false);
+
+        ArrayList<Entry> cost= new ArrayList<>();
+        costList = DB.getAllCurrentMonthCostsOrderByDateASE();
+        for (CostChartModel data : costList) {
+            // turn your data into Entry objects
+            cost.add(new Entry(data.getId(), data.getAmmount()));
+        }
+
+        LineDataSet setCost = new LineDataSet(cost, "Cost");
+        setCost.setFillAlpha(110);
+        setCost.setColor(Color.RED);
+        setCost.setLineWidth(3f);
+        setCost.setValueTextColor(Color.parseColor("#3090C7"));
+        setCost.setValueTextSize(10f);
+
+        ArrayList<ILineDataSet> datasetCost = new ArrayList<>();
+        datasetCost.add(setCost);
+        LineData dataCost = new LineData(datasetCost);
+        lineCostChart.setData(dataCost);
+        //Line Cost Chart End
 
         DB.close();
         return root;

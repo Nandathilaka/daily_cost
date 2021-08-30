@@ -135,7 +135,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
             public void onClick(View v) {
                 if(inputValidate()){
                     String title = String.valueOf(txtIncomeTitle.getText());
-                    long ammount = (long)Double.parseDouble(txtIncomeAmount.getText().toString());
+                    double ammount = Double.parseDouble(txtIncomeAmount.getText().toString());
                     String date = String.valueOf(txtIncomeDate.getText());
                     int currentUserID = DB.getCurrentUserID();
                     Boolean insertIncome = DB.insertIncome(currentUserID,title,ammount, DateConverter.DateConvertToString(date));
@@ -159,7 +159,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
             public void onClick(View v) {
                 if(inputValidate()){
                     String updatedTitle = txtIncomeTitle.getText().toString();
-                    Long updatedAmount = Long.valueOf(txtIncomeAmount.getText().toString());
+                    double updatedAmount = Double.valueOf(txtIncomeAmount.getText().toString());
                     String updatedDate = txtIncomeDate.getText().toString();
                     Boolean update = DB.updateIncome(itemID,updatedTitle,updatedAmount,DateConverter.DateConvertToString(updatedDate),userID);
                     DB.close();

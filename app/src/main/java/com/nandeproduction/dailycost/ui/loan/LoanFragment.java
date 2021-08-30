@@ -111,7 +111,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 txtLoanAccount.setText(accountNumber);
                 txtLoanMonthlyPayment.setText(payment);
                 txtLoanOpenDate.setText(DateConverter.setCalanderDate(selecteedLoan.getOpenDate()));
-                txtLoanAccount.setText(selecteedLoan.getAccountNumber());
+                txtLoanMonths.setText(selecteedLoan.getNumberOfMonth());
                 txtLoanAccountName.setText(selecteedLoan.getAccountName());
                 //txtLoanInterestRate.setText(Double.toString(selecteedLoan.getInterestRate()));
                 txtLoanInterestRate.setText(selecteedLoan.getInterestRate());
@@ -184,7 +184,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 if(inputValidate()){
                     String accountNumber = String.valueOf(txtLoanAccount.getText());
                     String accountName = String.valueOf(txtLoanAccountName.getText());
-                    long loanAmmount = Long.valueOf(txtLoanAmount.getText().toString());
+                    double loanAmmount = Double.valueOf(txtLoanAmount.getText().toString());
                     double loanMonthlyPayment = Double.valueOf(txtLoanMonthlyPayment.getText().toString());
                     String loanRate = String.valueOf(txtLoanInterestRate.getText());
                     String loanOpenDate = String.valueOf(txtLoanOpenDate.getText());

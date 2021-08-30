@@ -85,7 +85,7 @@ public class CostListviewAdapter extends BaseAdapter {
 
         holder.mTitle.setText(item.getTitle().toString());
         //holder.mId.setText(Integer.valueOf(item.getId()).toString());
-        holder.mAmount.setText(Integer.valueOf(item.getAmount()).toString());
+        holder.mAmount.setText(item.getAmount());
         holder.mDate.setText(DateConverter.setCalanderDate(item.getDate().toString()));
 
         final View finalConvertView = convertView;

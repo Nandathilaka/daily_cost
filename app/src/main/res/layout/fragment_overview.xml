@@ -172,6 +172,33 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
                                 android:layout_weight="1"
+                                android:text=""
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/lblIncomeCurrency"
+                                android:textColor="@color/design_default_color_secondary_variant"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="viewEnd"
+                                android:layout_weight="1"
+                                android:text="LKR"
+                                android:gravity="center_horizontal"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:padding="10dp">
+                            <TextView
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
                                 android:text="Income"
                                 android:textColorHighlight="#000"
                                 android:textSize="20sp"/>
@@ -255,7 +282,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardViewChart"
+                android:id="@+id/cardViewIncomeChart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#fff"
@@ -272,7 +299,33 @@
                     <com.github.mikephil.charting.charts.LineChart
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:id="@+id/lineChar"
+                        android:id="@+id/lineIncomeChart"
+                        android:contentDescription="Income Chart"
+                        >
+                    </com.github.mikephil.charting.charts.LineChart>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewCostChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#fff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:id="@+id/lineCostChart"
                         android:contentDescription="Income Chart"
                         >
                     </com.github.mikephil.charting.charts.LineChart>
@@ -308,7 +361,33 @@
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:padding="10dp">
+                            <TextView
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:text=""
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/lblCostCurrency"
+                                android:textColor="@color/design_default_color_secondary_variant"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="viewEnd"
+                                android:layout_weight="1"
+                                android:text="LKR"
+                                android:gravity="center_horizontal"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
 
+                        </TableRow>
                         <TableRow
                             android:layout_height="wrap_content"
                             android:layout_width="match_parent"

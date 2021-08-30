@@ -70,6 +70,16 @@
                     android:background="@drawable/text_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtCurrency"
+                    android:padding="8dp"
+                    android:textColor="#fff"
+                    android:hint="Currenty (USD/LKR)"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
                 <Button
                     android:id="@+id/btnSignUp"
                     android:layout_gravity="center"

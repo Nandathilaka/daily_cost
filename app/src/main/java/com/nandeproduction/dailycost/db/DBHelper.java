@@ -12,12 +12,14 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.nandeproduction.dailycost.Cost;
+import com.nandeproduction.dailycost.CostChartModel;
 import com.nandeproduction.dailycost.DateConverter;
 import com.nandeproduction.dailycost.Income;
 import com.nandeproduction.dailycost.IncomeChartModel;
 import com.nandeproduction.dailycost.IncomeListviewAdapter;
 import com.nandeproduction.dailycost.Loan;
 import com.nandeproduction.dailycost.LoanPeriod;
+import com.nandeproduction.dailycost.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +48,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String USERS_COLUMN_EMAIL = "email";
     public static final String USERS_COLUMN_STREET = "street";
     public static final String USERS_COLUMN_COUNTRY = "country";
+    public static final String USERS_COLUMN_CURRENCY = "currency";
 
     //Income Table
     public static final String INCOMES_TABLE_NAME = "incomes";
@@ -106,7 +109,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // Create Users Table
         db.execSQL(
                 "create table users " +
-                        "(user_id integer primary key , first_name text, last_name text, email text UNIQUE, street text, country text, date_created text, date_updated text, deleted integer default 0);"
+                        "(user_id integer primary key , first_name text, last_name text, email text UNIQUE, street text, country text, currency text, date_created text, date_updated text, deleted integer default 0);"
         );
 
         // Create Income Table
@@ -165,14 +168,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Insert User
-    public boolean insertUser (String fname, String lname, String email, String street,String country) {
+    public boolean insertUser (User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("first_name", fname);
-        contentValues.put("last_name", lname);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("country", country);
+        contentValues.put("first_name", user.getFirstName());
+        contentValues.put("last_name", user.getLastName());
+        contentValues.put("email", user.getEmailOrPhonenumber());
+        contentValues.put("street", user.getStreet());
+        contentValues.put("country", user.getCountry());
+        contentValues.put("currency", user.getCurrency());
         contentValues.put("date_created", DateConverter.DateConvert(new Date()));
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
         long result = db.insert("users", null, contentValues);
@@ -185,7 +189,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Insert daily income
-    public boolean insertIncome (int user_id, String title, long amount, String date) {
+    public boolean insertIncome (int user_id, String title, double amount, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
@@ -204,7 +208,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Insert Daily Cost
-    public boolean insertCost (int user_id, String title, long amount, String date) {
+    public boolean insertCost (int user_id, String title, double amount, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
@@ -340,6 +344,26 @@ public class DBHelper extends SQLiteOpenHelper {
         return x;
     }
 
+    //Get current user ID
+    public User getUserDetails(){
+        User user = new User();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getamountdata = "SELECT * FROM "+ USERS_TABLE_NAME + " ORDER BY ROWID ASC LIMIT 1";
+        Cursor res = db.rawQuery(getamountdata, null);
+        res.moveToFirst();
+        while(res.isAfterLast() == false){
+            user.setFirstName(res.getString(res.getColumnIndex("first_name")));
+            user.setLastName(res.getString(res.getColumnIndex("last_name")));
+            user.setEmailOrPhonenumber(res.getString(res.getColumnIndex("email")));
+            user.setStreet(res.getString(res.getColumnIndex("street")));
+            user.setCountry(res.getString(res.getColumnIndex("country")));
+            user.setCurrency(res.getString(res.getColumnIndex("currency")));
+            res.moveToNext();
+        }
+        db.close();
+        return user;
+    }
+
     //Update Contact Table data given by the ID
     public boolean updateContact (Integer id, String name, String phone, String email, String street,String place) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -379,7 +403,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Update income table data given by the ID
-    public boolean updateIncome (Integer id, String title, long amount, String date, Integer user_id) {
+    public boolean updateIncome (Integer id, String title, double amount, String date, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
@@ -396,7 +420,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Update Cost table data given by the ID
-    public boolean updateCost (Integer id, String title, long amount, String date, Integer user_id) {
+    public boolean updateCost (Integer id, String title, double amount, String date, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
@@ -413,7 +437,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Update Cost table data given by the ID
-    public boolean updateLoan (Integer id, String account_name, String account_number, long loan_amount, double monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
+    public boolean updateLoan (Integer id, String account_name, String account_number, double loan_amount, double monthly_payment, String rate, String open_date, int months, int number_of_paid_months, Integer user_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("account_name", account_name);
@@ -663,11 +687,57 @@ public class DBHelper extends SQLiteOpenHelper {
 
                     for (Income income: array_list) {
                         if(DateConverter.getOnlyDate(income.getDate()) == i){
-                            incomeChartModel.setAmmount(income.getAmount());
+                            incomeChartModel.setAmmount(Float.parseFloat(income.getAmount()));
                         }
                     }
                 }
                 chartModelList.add(incomeChartModel);
+            }
+        }
+
+        return chartModelList;
+    }
+
+    //Get all current month cost data list
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ArrayList<CostChartModel> getAllCurrentMonthCostsOrderByDateASE() {
+        ArrayList<Cost> array_list = new ArrayList<Cost>();
+        ArrayList<CostChartModel> chartModelList = new ArrayList<CostChartModel>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from costs"+ " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted = 0 ORDER BY date ASC", null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            Cost cost = new Cost();
+            cost.setId(res.getInt(res.getColumnIndex(COSTS_COLUMN_ID)));
+            cost.setTitle(res.getString(res.getColumnIndex(COSTS_COLUMN_TITLE)));
+            cost.setAmount(res.getLong(res.getColumnIndex(COSTS_COLUMN_AMOUNT)));
+            cost.setDate(res.getString(res.getColumnIndex(COSTS_COLUMN_DATE)));
+            array_list.add(cost);
+            res.moveToNext();
+        }
+        db.close();
+        if(array_list.size() > 0){
+            int firstDate = DateConverter.getOnlyDate(array_list.get(0).getDate());
+            int lastDate = DateConverter.getOnlyDate(array_list.get(array_list.size()-1).getDate());
+            int todayDate = DateConverter.getOnlyDate(DateConverter.DateConvert(new Date()));
+            if(lastDate < todayDate)
+                lastDate = todayDate;
+            for (int i=0; i <= lastDate;i++){
+                CostChartModel costChartModel = new CostChartModel();
+                costChartModel.setId(i);
+                if(i==0){
+                    costChartModel.setAmmount(0);
+                }else {
+                    for (Cost cost: array_list) {
+                        if(DateConverter.getOnlyDate(cost.getDate()) == i){
+                            costChartModel.setAmmount(Float.parseFloat(cost.getAmount()));
+                        }
+                    }
+                }
+                chartModelList.add(costChartModel);
             }
         }
 

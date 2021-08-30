@@ -105,8 +105,8 @@ public class Loan {
         return nextPaymentDate;
     }
 
-    public int getNumberOfMonth() {
-        return numberOfMonth;
+    public String getNumberOfMonth() {
+        return String.valueOf(numberOfMonth);
     }
 
     public void setNumberOfMonth(int numberOfMonth) {
