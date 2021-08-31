@@ -188,6 +188,24 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateUser (User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("first_name", user.getFirstName());
+        contentValues.put("last_name", user.getLastName());
+        contentValues.put("email", user.getEmailOrPhonenumber());
+        contentValues.put("country", user.getCountry());
+        contentValues.put("currency", user.getCurrency());
+        contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
+        long result = db.update("users", contentValues, "user_id = ? ", new String[] { Integer.toString(user.getUserID()) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     //Insert daily income
     public boolean insertIncome (int user_id, String title, double amount, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -352,6 +370,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(getamountdata, null);
         res.moveToFirst();
         while(res.isAfterLast() == false){
+            user.setUserID(res.getInt(res.getColumnIndex("user_id")));
             user.setFirstName(res.getString(res.getColumnIndex("first_name")));
             user.setLastName(res.getString(res.getColumnIndex("last_name")));
             user.setEmailOrPhonenumber(res.getString(res.getColumnIndex("email")));
@@ -641,7 +660,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Income income = new Income();
             income.setId(res.getInt(res.getColumnIndex(INCOMES_COLUMN_ID)));
             income.setTitle(res.getString(res.getColumnIndex(INCOMES_COLUMN_TITLE)));
-            income.setAmount(res.getLong(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
+            income.setAmount(res.getDouble(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
             income.setDate(res.getString(res.getColumnIndex(INCOMES_COLUMN_DATE)));
             array_list.add(income);
             res.moveToNext();
@@ -665,7 +684,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Income income = new Income();
             income.setId(res.getInt(res.getColumnIndex(INCOMES_COLUMN_ID)));
             income.setTitle(res.getString(res.getColumnIndex(INCOMES_COLUMN_TITLE)));
-            income.setAmount(res.getLong(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
+            income.setAmount(res.getDouble(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
             income.setDate(res.getString(res.getColumnIndex(INCOMES_COLUMN_DATE)));
             array_list.add(income);
             res.moveToNext();
@@ -713,7 +732,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Cost cost = new Cost();
             cost.setId(res.getInt(res.getColumnIndex(COSTS_COLUMN_ID)));
             cost.setTitle(res.getString(res.getColumnIndex(COSTS_COLUMN_TITLE)));
-            cost.setAmount(res.getLong(res.getColumnIndex(COSTS_COLUMN_AMOUNT)));
+            cost.setAmount(res.getDouble(res.getColumnIndex(COSTS_COLUMN_AMOUNT)));
             cost.setDate(res.getString(res.getColumnIndex(COSTS_COLUMN_DATE)));
             array_list.add(cost);
             res.moveToNext();
@@ -774,7 +793,7 @@ public class DBHelper extends SQLiteOpenHelper {
             Cost cost = new Cost();
             cost.setId(res.getInt(res.getColumnIndex(INCOMES_COLUMN_ID)));
             cost.setTitle(res.getString(res.getColumnIndex(INCOMES_COLUMN_TITLE)));
-            cost.setAmount(res.getLong(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
+            cost.setAmount(res.getDouble(res.getColumnIndex(INCOMES_COLUMN_AMOUNT)));
             cost.setDate(res.getString(res.getColumnIndex(INCOMES_COLUMN_DATE)));
             array_list.add(cost);
             res.moveToNext();
@@ -860,53 +879,55 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Count Current Month Income
-    public long CurrentMonthIncome(){
-        long x = 0;
+    public double CurrentMonthIncome(){
+        double x = 0;
         SQLiteDatabase db = getReadableDatabase();
         String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) and deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
-            x= c.getLong(0);
+            //x= c.getLong(0);
+            x= c.getDouble(0);
         }
         db.close();
         return x;
     }
 
     // Count Current Month Cost
-    public long CurrentMonthCost(){
-        long x = 0;
+    public double CurrentMonthCost(){
+        double x = 0;
         SQLiteDatabase db = getReadableDatabase();
         String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND  strftime('%m',date) = strftime('%m',date('now')) AND deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
-            x = c.getLong(0);
+            //x = c.getLong(0);
+            x = c.getDouble(0);
         }
         db.close();
         return x;
     }
 
     // Count Current Year Income
-    public long CurrentYearIncome(){
-        long x = 0;
-        float y = 0;
+    public double CurrentYearIncome(){
+        double x = 0;
         SQLiteDatabase db = getReadableDatabase();
         String getamountdata = "SELECT SUM(amount) AS totalIncome FROM "+ INCOMES_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
-            x = c.getLong(0);
+            //x = c.getLong(0);
+            x = c.getDouble(0);
         }
         db.close();
         return x;
     }
 
     // Count Current Year Cost
-    public long CurrentYearCost(){
-        long x = 0;
+    public double CurrentYearCost(){
+        double x = 0;
         SQLiteDatabase db = getReadableDatabase();
         String getamountdata = "SELECT SUM(amount) AS totalCost FROM "+ COSTS_TABLE_NAME + " WHERE strftime('%Y',date) = strftime('%Y',date('now')) AND deleted = 0";
         Cursor c = db.rawQuery(getamountdata, null);
         if(c.moveToFirst()){
-            x = c.getLong(0);
+            x = c.getDouble(0);
         }
         db.close();
         return x;

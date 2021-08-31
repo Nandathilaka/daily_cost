@@ -138,7 +138,8 @@ public class IncomeListviewAdapter extends BaseAdapter {
 
     private void getAllCurrentMonthIncome(){
         DB = new DBHelper(activity.getApplicationContext());
-        lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        //lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        lblTotalIncomeThisMonthSum.setText(String.format("%.2f",DB.CurrentMonthIncome()));
         //incomeList.clear();
         incomeList = DB.getAllCurrentMonthIncomes();
         DB.close();

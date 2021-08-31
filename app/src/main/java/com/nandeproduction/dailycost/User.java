@@ -1,6 +1,7 @@
 package com.nandeproduction.dailycost;
 
 public class User {
+    private int userID;
     private String firstName;
     private String lastName;
     private String emailOrPhonenumber;
@@ -54,5 +55,13 @@ public class User {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }

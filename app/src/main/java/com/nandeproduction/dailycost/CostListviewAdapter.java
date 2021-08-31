@@ -128,7 +128,8 @@ public class CostListviewAdapter extends BaseAdapter {
 
     private void getAllCurrentMonthCost(){
         DB = new DBHelper(activity.getApplicationContext());
-        lblTotalCostThisMonthSum.setText(Long.valueOf(DB.CurrentMonthCost()).toString());
+        //lblTotalCostThisMonthSum.setText(Long.valueOf(DB.CurrentMonthCost()).toString());
+        lblTotalCostThisMonthSum.setText(String.format("%.2f",DB.CurrentMonthCost()));
         //costList.clear();
         costList = DB.getAllCurrentMonthCosts();
         DB.close();

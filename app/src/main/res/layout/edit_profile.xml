@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetProfileContainer"
+    android:background="@drawable/bottom_sheet_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/buttomTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Profile"
+        android:textColor="@color/colorPrimarytext"
+        android:textSize="18sp"
+        android:textStyle="bold"></TextView>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorDivider"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/buttomIcom"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_png"
+            app:riv_corner_radius="10dp"
+            ></com.makeramen.roundedimageview.RoundedImageView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
+
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="40sp"
+                android:textStyle="bold"></TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorDivider"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/txtDescription"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:fontFamily="serif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Please fill the details and submit"/>
+
+                <EditText
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtFirstName"
+                    android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:hint="Enter First Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtLastName"
+                    android:padding="8dp"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:hint="Enter Last Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtEmail"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:hint="Enter Email or Phone Number"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtCountry"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:hint="Enter Country"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:id="@+id/txtCurrency"
+                    android:fontFamily="serif"
+                    android:background="@drawable/text_background"
+                    android:textColor="#fff"
+                    android:layout_width="match_parent"
+                    android:hint="Enter Currency"
+                    android:layout_height="wrap_content" />
+
+                <TableLayout
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/table_layout_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:id="@+id/table_row_button"
+                        android:padding="10dp">
+
+                        <Button
+                            android:id="@+id/btnSubmit"
+                            android:layout_gravity="center"
+                            android:fontFamily="serif"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_weight="1.2"
+                            android:visibility="visible"
+                            android:text="Submit"/>
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -250,9 +250,10 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     private String getCurrentMonthCost(){
         DB = new DBHelper(getContext());
-        long currentMonthCost = DB.CurrentMonthCost();
+        //long currentMonthCost = DB.CurrentMonthCost();
+        double currentMonthCost = DB.CurrentMonthCost();
         DB.close();
-        return Long.valueOf(currentMonthCost).toString();
+        return String.format("%.2f",currentMonthCost) ;
     }
 
     private void getAllCurrentMonthCost(){
@@ -273,7 +274,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     public void refreshList(){
-        lblTotalCostThisMonthSum.setText(Long.valueOf(DB.CurrentMonthCost()).toString());
+        lblTotalCostThisMonthSum.setText(String.format("%.2f",DB.CurrentMonthCost()));
         getAllCurrentMonthCost();
         CostListviewAdapter refreshAdapter = new CostListviewAdapter(getActivity(), costList);
         listView.setAdapter(refreshAdapter);

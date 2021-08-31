@@ -1,6 +1,9 @@
 package com.nandeproduction.dailycost;
 
+import java.text.DecimalFormat;
+
 public class Income {
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
     private int id;
     private String title;
     private double amount;
@@ -34,7 +37,7 @@ public class Income {
     public void setTitle(String incomeTitle){
         this.title = incomeTitle;
     }
-    public void setAmount(double incomeAmount){
+    public void setAmount(double  incomeAmount){
         this.amount = incomeAmount;
     }
     public void setDate(String incomeDate){

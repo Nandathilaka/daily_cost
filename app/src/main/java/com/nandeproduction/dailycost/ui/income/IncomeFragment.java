@@ -249,9 +249,10 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
 
     private String getCurrentMonthIncome(){
         DB = new DBHelper(getContext());
-        long currentMonthIncome = DB.CurrentMonthIncome();
+        //long currentMonthIncome = DB.CurrentMonthIncome();
+        double currentMonthIncome = DB.CurrentMonthIncome();
         DB.close();
-        return Long.valueOf(currentMonthIncome).toString();
+        return String.format("%.2f",currentMonthIncome);
     }
 
     private void getAllCurrentMonthIncome(){
@@ -272,7 +273,8 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
     }
 
     public void refreshList(){
-        lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        //lblTotalIncomeThisMonthSum.setText(Long.valueOf(DB.CurrentMonthIncome()).toString());
+        lblTotalIncomeThisMonthSum.setText(String.format("%.2f",DB.CurrentMonthIncome()));
         getAllCurrentMonthIncome();
         IncomeListviewAdapter refreshAdapter = new IncomeListviewAdapter(getActivity(), incomeList);
         listView.setAdapter(refreshAdapter);
