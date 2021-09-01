@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -192,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
                                 emaiOrPhone.setText(updatedUser.getEmailOrPhonenumber());
                                 country.setText(updatedUser.getCountry());
                                 currency.setText(updatedUser.getCurrency());
+                                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(mainIntent);
                             }
                         }
 

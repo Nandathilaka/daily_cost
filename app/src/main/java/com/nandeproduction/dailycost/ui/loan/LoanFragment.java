@@ -161,15 +161,22 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                     String loanRate = String.valueOf(txtLoanInterestRate.getText());
                     String loanOpenDate = String.valueOf(txtLoanOpenDate.getText());
                     int loanNumberOfMonths = Integer.valueOf(txtLoanMonths.getText().toString());
-                    int currentUserID = DB.getCurrentUserID();
-                    Boolean insertLoan = DB.insertLoan(currentUserID,accountName,accountNumber,loanAmmount,loanMonthlyPayment,loanRate, DateConvertToString(loanOpenDate),loanNumberOfMonths,1);
-                    if(insertLoan == true){
-                        Toast.makeText(getContext(),"Loan Insert Successfully", Toast.LENGTH_SHORT).show();
-                        defaultUI();
-                        refreshList();
+                    if(!DB.checkExistLoanAccountNumber(accountNumber)){
+                        int currentUserID = DB.getCurrentUserID();
+                        Boolean insertLoan = DB.insertLoan(currentUserID,accountName,accountNumber,loanAmmount,loanMonthlyPayment,loanRate, DateConvertToString(loanOpenDate),loanNumberOfMonths,1);
+                        if(insertLoan == true){
+                            Toast.makeText(getContext(),"Loan Insert Successfully", Toast.LENGTH_SHORT).show();
+                            defaultUI();
+                            refreshList();
+                        }else{
+                            Toast.makeText(getContext(),"Loan Insert Unsuccessfully", Toast.LENGTH_SHORT).show();
+                        }
                     }else{
-                        Toast.makeText(getContext(),"Loan Insert Unsuccessfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Account Number Already Exist", Toast.LENGTH_SHORT).show();
+                        txtLoanAccount.setFocusable(true);
+                        txtLoanAccount.requestFocus();
                     }
+
                 }
             }
         });

@@ -561,6 +561,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id), Integer.toString(user_id) });
     }
 
+    public boolean checkExistLoanAccountNumber(String accountNumber){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("account_number", accountNumber);
+        Cursor res =  db.rawQuery( "select * from loans WHERE account_number = ? AND deleted = 0", new String[] {accountNumber} );
+        res.moveToFirst();
+        boolean isExist = false;
+        while(res.isAfterLast() == false){
+            isExist = true;
+            res.moveToNext();
+        }
+        db.close();
+        return isExist;
+    }
+
     //Hide loans table data given by the ID, To do that update the "deleted" column as 1 (1 mean deleted raw item/ 0 mean non-deleted raw item)
     public boolean hideLoan (Integer id, Integer user_id) {
         //Get Loan Account Number
@@ -571,7 +586,7 @@ public class DBHelper extends SQLiteOpenHelper {
             loan.setAccountNumber(res.getString(res.getColumnIndex("account_number")));
             res.moveToNext();
         }
-        if(hideLoanInstallments(loan.getAccountNumber(),user_id)){
+        if(deleteLoanInstallments(loan.getAccountNumber(),user_id)){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put("deleted", 1);
@@ -596,6 +611,19 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("deleted", 1);
         contentValues.put("date_updated", DateConverter.DateConvert(new Date()));
         long result = db.update("loan_installment", contentValues, "loan_account_number = ? AND user_id = ? and deleted = 0", new String[] { loan_account_number, Integer.toString(user_id) } );
+        db.close();
+        if(result == -1){
+            return false;
+        }else{
+
+            return true;
+        }
+    }
+
+    //Delete loan installments related loan when deleted the loan
+    public boolean deleteLoanInstallments(String loan_account_number, int user_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long result = db.delete("loan_installment", "loan_account_number = ? AND user_id = ? and deleted = 0", new String[] { loan_account_number, Integer.toString(user_id) } );
         db.close();
         if(result == -1){
             return false;

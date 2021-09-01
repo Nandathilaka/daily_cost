@@ -1,6 +1,7 @@
 package com.nandeproduction.dailycost;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,6 +81,9 @@ public class BottomLoanListviewAdapter extends BaseAdapter {
                 DB = new DBHelper(activity.getApplicationContext());
                 if(DB.payInstallment(item.getLoan_installment_id(),item.getLoan_account_number(),DB.getCurrentUserID())){
                     Toast.makeText(activity.getApplicationContext(),"Installment Paid Successfully", Toast.LENGTH_SHORT).show();
+
+                    Intent mainIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                    activity.startActivity(mainIntent);
                 }
             }
         });

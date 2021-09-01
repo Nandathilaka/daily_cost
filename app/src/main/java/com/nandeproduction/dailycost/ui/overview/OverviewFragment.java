@@ -278,7 +278,7 @@ public class OverviewFragment extends Fragment {
 
         LineDataSet setIncome = new LineDataSet(income, "Income");
         setIncome.setFillAlpha(110);
-        setIncome.setColor(R.color.design_default_color_primary_variant);
+        setIncome.setColor(Color.parseColor("#1B9A55"));
         setIncome.setLineWidth(3f);
         setIncome.setValueTextColor(Color.parseColor("#3090C7"));
         setIncome.setValueTextSize(10f);
