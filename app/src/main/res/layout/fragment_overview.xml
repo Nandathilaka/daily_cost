@@ -65,9 +65,17 @@
                                 android:layout_weight="1.2"
                                 android:fontFamily="serif"
                                 android:text="Income"
+                                android:textSize="20dp"
+                                android:gravity="center_horizontal|top"
+                                android:textColor="#46C4F0"
                                 android:textStyle="bold"
                                 android:visibility="visible"
-                                android:background="#1B9A55"/>
+                                android:background="@drawable/income_xml"/>
+
+                            <View
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:background="#46C4F0" />
 
                             <Button
                                 android:id="@+id/btnCost"
@@ -76,10 +84,18 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1.2"
                                 android:fontFamily="serif"
+                                android:textColor="#46C4F0"
                                 android:text="Cost"
+                                android:textSize="20dp"
+                                android:gravity="center_horizontal|top"
                                 android:textStyle="bold"
                                 android:visibility="visible"
-                                android:background="#E55555"/>
+                                android:background="@drawable/cost_xml"/>
+
+                            <View
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:background="#46C4F0" />
 
                             <Button
                                 android:id="@+id/btnLoan"
@@ -88,10 +104,13 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1.2"
                                 android:fontFamily="serif"
+                                android:textColor="#46C4F0"
                                 android:text="Loan"
+                                android:textSize="20dp"
+                                android:gravity="center_horizontal|top"
                                 android:textStyle="bold"
                                 android:visibility="visible"
-                                android:background="#46C4F0"/>
+                                android:background="@drawable/loan_xml"/>
                         </TableRow>
                     </TableLayout>
                 </LinearLayout>
@@ -336,6 +355,142 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#fff"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TableLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:padding="10dp">
+                            <TextView
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:text="Income Plan"
+                                android:textAlignment="viewStart"
+                                android:textStyle="bold"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"
+                                android:gravity="start" />
+                            <TextView
+                                android:id="@+id/lblSaveCurrency"
+                                android:textColor="@color/design_default_color_secondary_variant"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="viewEnd"
+                                android:layout_weight="1"
+                                android:text="LKR"
+                                android:gravity="center_horizontal"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:padding="10dp">
+                            <TextView
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:text="25% - Used you want"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/lblSavePart1"
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="viewEnd"
+                                android:layout_weight="1"
+                                android:text="Value"
+                                android:gravity="center_horizontal"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp" />
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:text="50% - Invest in business"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/lblSavePart2"
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="viewEnd"
+                                android:layout_weight="1"
+                                android:text="Value"
+                                android:gravity="center_horizontal"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp" />
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:text="25% - Saved for emerg:"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/lblSavePart3"
+                                android:textColor="#000"
+                                android:fontFamily="serif"
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAlignment="viewEnd"
+                                android:layout_weight="1"
+                                android:text="Value"
+                                android:gravity="center_horizontal"
+                                android:textColorHighlight="#000"
+                                android:textSize="20sp"/>
+
+                        </TableRow>
+                    </TableLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_width="match_parent"
@@ -562,7 +717,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_width="match_parent"
                                 android:layout_weight="2"
-                                android:text="Next Paymentt Date"
+                                android:text="Next Payment Date"
                                 android:gravity="center_horizontal"/>
 
                         </TableRow>

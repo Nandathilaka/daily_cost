@@ -73,7 +73,8 @@ public class OverviewFragment extends Fragment {
     TextView lblAssetThisYear;
     TextView lblNumberOfLoans;
     TextView lblIncomeCurrency;
-    TextView lblCostCurrency;
+    TextView lblCostCurrency, lblSaveCurrency;
+    TextView lblSavePart1, lblSavePart2, lblSavePart3;
     TextView txtTime;
     DBHelper DB;
     Button btnIncome,btnCost,btnLoan;
@@ -120,6 +121,8 @@ public class OverviewFragment extends Fragment {
         lblIncomeCurrency.setText(user.getCurrency());
         lblCostCurrency = root.findViewById(R.id.lblCostCurrency);
         lblCostCurrency.setText(user.getCurrency());
+        lblSaveCurrency = root.findViewById(R.id.lblSaveCurrency);
+        lblSaveCurrency.setText(user.getCurrency());
         txtTime = root.findViewById(R.id.txtTime);
         Date today=new Date();
         SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
@@ -148,6 +151,7 @@ public class OverviewFragment extends Fragment {
         int numberofLoans = DB.numberOfActiveLoansRows();
         lblNumberOfLoans.setText("Loans("+numberofLoans+")");
         cardViewIncomeChart = root.findViewById(R.id.cardViewIncomeChart);
+        /*
         if(currentMonthIncome == 0){
             cardViewIncomeChart.setVisibility(View.INVISIBLE);
         }else{
@@ -160,6 +164,19 @@ public class OverviewFragment extends Fragment {
         }else{
             cardViewCostChart.setVisibility(View.VISIBLE);
         }
+         */
+
+        //Save plan start
+        String asset25 = String.format("%.2f",(Double.parseDouble(lblIncomeThisMonth.getText().toString()) * 25/100));
+        String asset50 = String.format("%.2f",(Double.parseDouble(lblIncomeThisMonth.getText().toString()) * 50/100));
+
+        lblSavePart1 = root.findViewById(R.id.lblSavePart1);
+        lblSavePart2 = root.findViewById(R.id.lblSavePart2);
+        lblSavePart3 = root.findViewById(R.id.lblSavePart3);
+        lblSavePart1.setText(asset25);
+        lblSavePart2.setText(asset50);
+        lblSavePart3.setText(asset25);
+        //Save plan end
 
         //Click item in the list Start
         loanList = new ArrayList<Loan>();
