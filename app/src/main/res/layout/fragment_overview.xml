@@ -59,7 +59,7 @@
 
                             <Button
                                 android:id="@+id/btnIncome"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="100dp"
                                 android:layout_gravity="center"
                                 android:layout_weight="1.2"
@@ -70,7 +70,12 @@
                                 android:textColor="#46C4F0"
                                 android:textStyle="bold"
                                 android:visibility="visible"
-                                android:background="@drawable/income_xml"/>
+                                android:background="@drawable/income_xml"
+                                android:scaleType="fitCenter"
+                                android:adjustViewBounds="true"
+                                android:typeface="sans"
+                                android:scaleX="0.7"
+                                android:scaleY="0.7"/>
 
                             <View
                                 android:layout_width="2dp"
@@ -90,7 +95,12 @@
                                 android:gravity="center_horizontal|top"
                                 android:textStyle="bold"
                                 android:visibility="visible"
-                                android:background="@drawable/cost_xml"/>
+                                android:background="@drawable/cost_xml"
+                                android:scaleType="fitCenter"
+                                android:adjustViewBounds="true"
+                                android:typeface="sans"
+                                android:scaleX="0.7"
+                                android:scaleY="0.7"/>
 
                             <View
                                 android:layout_width="2dp"
@@ -110,7 +120,12 @@
                                 android:gravity="center_horizontal|top"
                                 android:textStyle="bold"
                                 android:visibility="visible"
-                                android:background="@drawable/loan_xml"/>
+                                android:background="@drawable/loan_xml"
+                                android:scaleType="fitCenter"
+                                android:adjustViewBounds="true"
+                                android:typeface="sans"
+                                android:scaleX="0.7"
+                                android:scaleY="0.7"/>
                         </TableRow>
                     </TableLayout>
                 </LinearLayout>

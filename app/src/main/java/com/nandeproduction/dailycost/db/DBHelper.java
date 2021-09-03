@@ -57,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String INCOMES_COLUMN_TITLE = "title";
     public static final String INCOMES_COLUMN_AMOUNT = "amount";
     public static final String INCOMES_COLUMN_DATE = "date";
+    public static final String INCOME_COLUMN_CATEGORY = "category";
 
     //Cost Table
     public static final String COSTS_TABLE_NAME = "costs";
@@ -65,6 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COSTS_COLUMN_TITLE = "title";
     public static final String COSTS_COLUMN_AMOUNT = "amount";
     public static final String COSTS_COLUMN_DATE = "date";
+    public static final String COSTS_COLUMN_CATEGORY = "category";
 
     //Loan Table
     public static final String LOANS_TABLE_NAME = "loans";
@@ -115,13 +117,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // Create Income Table
         db.execSQL(
                 "create table incomes " +
-                        "(id integer primary key , user_id interger ,title text, amount interger, date text, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger ,title text, amount interger, date text, category text default 'Other', date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
         );
 
         // Create Cost Table
         db.execSQL(
                 "create table costs " +
-                        "(id integer primary key , user_id interger ,title text, amount interger, date text, date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
+                        "(id integer primary key , user_id interger ,title text, amount interger, date text, category text default 'Other', date_created text, date_updated text, deleted integer default 0, foreign key (user_id) references users (user_id));"
         );
 
         // Create Loan Table
