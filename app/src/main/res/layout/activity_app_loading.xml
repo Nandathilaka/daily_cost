@@ -7,7 +7,7 @@
     tools:context=".AppLoading">
 
     <TextView
-        android:id="@+id/dailycost"
+        android:id="@+id/dailyexpense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -15,7 +15,21 @@
         android:layout_marginTop="60dp"
         android:fontFamily="cursive"
         android:gravity="center_horizontal"
-        android:text="Daily Cost"
+        android:text="Daily Expense"
+        android:textAlignment="center"
+        android:textColor="#03A9F4"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:id="@+id/tracker"
+        android:layout_below="@+id/dailyexpense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="cursive"
+        android:gravity="center_horizontal"
+        android:text="Tracker"
         android:textAlignment="center"
         android:textColor="#03A9F4"
         android:textSize="50dp"
@@ -35,7 +49,7 @@
         tools:ignore="MissingConstraints" />-->
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/likeImage"
-        android:layout_below="@+id/dailycost"
+        android:layout_below="@+id/tracker"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_margin="10dp"

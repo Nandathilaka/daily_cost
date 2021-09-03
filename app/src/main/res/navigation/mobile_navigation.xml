@@ -7,43 +7,43 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.nandeproduction.dailycost.ui.home.HomeFragment"
+        android:name="com.dailyexpense.tracker.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.nandeproduction.dailycost.ui.gallery.GalleryFragment"
+        android:name="com.dailyexpense.tracker.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.nandeproduction.dailycost.ui.slideshow.SlideshowFragment"
+        android:name="com.dailyexpense.tracker.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_income"
-        android:name="com.nandeproduction.dailycost.ui.income.IncomeFragment"
+        android:name="com.dailyexpense.tracker.ui.income.IncomeFragment"
         android:label="@string/menu_income"
         tools:layout="@layout/fragment_income" />
 
     <fragment
         android:id="@+id/nav_overview"
-        android:name="com.nandeproduction.dailycost.ui.overview.OverviewFragment"
+        android:name="com.dailyexpense.tracker.ui.overview.OverviewFragment"
         android:label="@string/menu_overview"
         tools:layout="@layout/fragment_overview" />
 
     <fragment
         android:id="@+id/nav_cost"
-        android:name="com.nandeproduction.dailycost.ui.cost.CostFragment"
+        android:name="com.dailyexpense.tracker.ui.cost.CostFragment"
         android:label="@string/menu_cost"
         tools:layout="@layout/fragment_cost" />
 
     <fragment
         android:id="@+id/nav_loan"
-        android:name="com.nandeproduction.dailycost.ui.loan.LoanFragment"
+        android:name="com.dailyexpense.tracker.ui.loan.LoanFragment"
         android:label="@string/menu_loan"
         tools:layout="@layout/fragment_loan" />
 </navigation>

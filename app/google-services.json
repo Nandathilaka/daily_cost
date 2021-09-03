@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "421738309401",
-    "project_id": "daily-cost-6f2a8",
-    "storage_bucket": "daily-cost-6f2a8.appspot.com"
+    "project_number": "302073489055",
+    "project_id": "dailyexpense-tracker",
+    "storage_bucket": "dailyexpense-tracker.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:421738309401:android:146e677ecbe892d50e0788",
+        "mobilesdk_app_id": "1:302073489055:android:c4ed5e8a242b60a083a4aa",
         "android_client_info": {
-          "package_name": "com.nandeproduction.dailycost"
+          "package_name": "com.dailyexpense.tracker"
         }
       },
       "oauth_client": [
         {
-          "client_id": "421738309401-gi54oj4u5u6eta6q37j75r3nn769jla7.apps.googleusercontent.com",
+          "client_id": "302073489055-52s2m03sf1gjnrnbubohifnvr1lb9cho.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA2bGOxy74yoHJ_6FHyTcbhoma-iIvV2Ns"
+          "current_key": "AIzaSyBJXiEvbyTCK3GSkjvP6b6_4pSP237q7Rc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "421738309401-gi54oj4u5u6eta6q37j75r3nn769jla7.apps.googleusercontent.com",
+              "client_id": "302073489055-52s2m03sf1gjnrnbubohifnvr1lb9cho.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
