@@ -25,7 +25,11 @@ public class DateConverter {
     public static String DateConvert(Date date){
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String correctDate = "";
-        correctDate = sdf1.format(date);
+        try {
+            correctDate = sdf1.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return correctDate;
     }
 

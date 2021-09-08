@@ -58,6 +58,10 @@ public class UserRegistration extends AppCompatActivity {
                     txtCurrency.setFocusable(true);
                     txtCurrency.requestFocus();
                 }
+                if(DB.checkUser() != 0){
+                    txtError.setText("User Exist");
+                    validation = false;
+                }
                 if(validation){
                     try {
                         User user = new User();

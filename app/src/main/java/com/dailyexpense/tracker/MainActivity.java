@@ -207,7 +207,13 @@ public class MainActivity extends AppCompatActivity {
                 bottomcurrency.setText(newUser.getCurrency());
 
                 bottomSheetDialog.setContentView(bottomSheetView);
-                bottomSheetDialog.show();
+                if(!bottomSheetDialog.isShowing()){
+                    bottomSheetDialog.show();
+                }else{
+                    bottomSheetDialog.dismiss();
+                }
+
+                //bottomSheetDialog.show();
                 bottomSheetView.findViewById(R.id.btnSubmit).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -319,6 +325,16 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(getBaseContext());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 }
