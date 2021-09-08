@@ -28,6 +28,13 @@ import com.dailyexpense.tracker.Loan;
 import com.dailyexpense.tracker.LoanListviewAdapter;
 import com.dailyexpense.tracker.R;
 import com.dailyexpense.tracker.db.DBHelper;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +60,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
     int itemID = 0;
     public static LoanListviewAdapter adapter = null;
     //private static DecimalFormat df = new DecimalFormat("#.##");
+    private AdView mAdView; //AdMob
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +74,30 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 textView.setText(s);
             }
         });
+
+        //AdMob Start
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = root.findViewById(R.id.adLoanView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+            }
+        });
+        //AdMob End
 
         //Date Start
         txtLoanOpenDate=(EditText) root.findViewById(R.id.txtLoanOpenDate);
@@ -151,7 +183,7 @@ public class LoanFragment extends Fragment implements DatePickerDialog.OnDateSet
                 if(inputValidate()){
                     String accountNumber = String.valueOf(txtLoanAccount.getText());
                     String accountName = String.valueOf(txtLoanAccountName.getText());
-                    long loanAmmount = Long.valueOf(txtLoanAmount.getText().toString());
+                    double loanAmmount = Double.valueOf(txtLoanAmount.getText().toString());
                     double loanMonthlyPayment = Double.valueOf(txtLoanMonthlyPayment.getText().toString());
                     String loanRate = String.valueOf(txtLoanInterestRate.getText());
                     String loanOpenDate = String.valueOf(txtLoanOpenDate.getText());

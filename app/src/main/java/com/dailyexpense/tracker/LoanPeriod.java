@@ -32,8 +32,8 @@ public class LoanPeriod {
         this.loan_account_number = loan_account_number;
     }
 
-    public double getLoan_installment() {
-        return loan_installment;
+    public String getLoan_installment() {
+        return String.format("%.2f",loan_installment);
     }
 
     public void setLoan_installment(double loan_installment) {

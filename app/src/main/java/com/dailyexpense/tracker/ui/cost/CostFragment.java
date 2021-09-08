@@ -24,6 +24,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.analytics.Tracker;
 import com.dailyexpense.tracker.Cost;
 import com.dailyexpense.tracker.CostListviewAdapter;
@@ -49,6 +56,7 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
     int itemID = 0;
     public static CostListviewAdapter adapter = null;
     private Tracker mTracker;//Google Analytics
+    private AdView mAdView; //AdMob
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,6 +70,30 @@ public class CostFragment extends Fragment implements DatePickerDialog.OnDateSet
                 textView.setText(s);
             }
         });
+
+        //AdMob Start
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = root.findViewById(R.id.adCostView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+            }
+        });
+        //AdMob End
 
         //Google Analytics Start
         // Obtain the shared Tracker instance.

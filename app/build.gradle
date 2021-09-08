@@ -70,5 +70,8 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-analytics:17.0.1' // google analytics
 
+    implementation 'com.google.android.gms:play-services-ads:20.3.0' //AdMob Placement
+    implementation 'com.google.android.gms:play-services-vision:16.2.0'
+
 
 }

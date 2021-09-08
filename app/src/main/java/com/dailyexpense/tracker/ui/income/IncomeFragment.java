@@ -1,6 +1,7 @@
 package com.dailyexpense.tracker.ui.income;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -24,11 +25,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.dailyexpense.tracker.AppLoading;
 import com.dailyexpense.tracker.DateConverter;
 import com.dailyexpense.tracker.Income;
 import com.dailyexpense.tracker.IncomeListviewAdapter;
 import com.dailyexpense.tracker.R;
 import com.dailyexpense.tracker.db.DBHelper;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +56,7 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
     public static ArrayList<Income> incomeList;
     int itemID = 0;
     public static IncomeListviewAdapter adapter = null;
+    private AdView mAdView; //AdMob
 
     public View onCreateView(@NonNull final LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +70,30 @@ public class IncomeFragment extends Fragment implements DatePickerDialog.OnDateS
                 textView.setText(s);
             }
         });
+
+        //AdMob Start
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = root.findViewById(R.id.adIncomeView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                super.onAdFailedToLoad(loadAdError);
+            }
+        });
+        //AdMob End
 
         //Date Start
         txtIncomeDate=(EditText) root.findViewById(R.id.txtIncomeDate);

@@ -243,7 +243,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //Insert Personal Loan details
-    public boolean insertLoan (int user_id, String account_name, String account_number, long loan_amount, double monthly_payment, String rate, String open_date, int months, int number_of_paid_months) {
+    public boolean insertLoan (int user_id, String account_name, String account_number, double loan_amount, double monthly_payment, String rate, String open_date, int months, int number_of_paid_months) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("user_id", user_id);
