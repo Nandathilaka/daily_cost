@@ -36,7 +36,8 @@
         <!-- [END fcm_default_channel] -->
 
         <activity android:name="com.dailyexpense.tracker.UserRegistration"></activity>
-        <activity android:name="com.dailyexpense.tracker.AppLoading">
+        <activity android:name="com.dailyexpense.tracker.AppLoading"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

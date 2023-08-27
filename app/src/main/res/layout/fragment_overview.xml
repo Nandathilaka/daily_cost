@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.overview.OverviewFragment">
 
+    <!-- Test Add = ca-app-pub-3940256099942544/6300978111
+     Original Add = ca-app-pub-4566432493079281/9805850715
+     -->
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -101,7 +104,7 @@
                                 android:layout_weight="1.2"
                                 android:fontFamily="serif"
                                 android:textColor="#46C4F0"
-                                android:text="Cost"
+                                android:text="Expenses"
                                 android:textSize="20dp"
                                 android:gravity="center_horizontal|top"
                                 android:textStyle="bold"
